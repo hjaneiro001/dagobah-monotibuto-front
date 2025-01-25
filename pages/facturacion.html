@@ -1,0 +1,30 @@
+<div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom" id="home-section">
+    <h1 class="h2">Facturacion</h1>
+    <div class="btn-toolbar mb-2 mb-md-0">
+        <div class="btn-group">
+            <button id="dropdownButton" type="button" class="btn btn-sm btn-outline-secondary dropdown-toggle d-flex align-items-center gap-1" 
+            data-bs-toggle="dropdown" aria-expanded="false">
+                <svg class="bi"><use xlink:href="#file-earmark"/></svg>
+              <span>Factura</span>
+            </button>
+            <ul class="dropdown-menu">
+              <li><a class="dropdown-item" data-value="Factura">Factura</a></li>
+              <li><a class="dropdown-item" data-value="Nota de Credito">Nota de Credito</a></li>
+              <li><a class="dropdown-item" data-value="Nota de Debito">Nota de Debito</a></li>
+            </ul>
+        </div>  
+    </div>   
+</div>
+
+<script>
+const dropdownButton = document.getElementById('dropdownButton');
+const dropdownItems = document.querySelectorAll('.dropdown-item');
+
+dropdownItems.forEach(item => {
+  item.addEventListener('click', (e) => {
+    e.preventDefault();
+    const selectedText = item.getAttribute('data-value');
+    dropdownButton.querySelector('span').textContent = selectedText;
+  });
+});
+</script>
