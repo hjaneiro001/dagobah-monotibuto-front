@@ -97,38 +97,3 @@ class Select {
 
 }
 
-class SelectRubro extends Select {
-
-    constructor(selectID) {
-
-        let id = selectID
-        let indiceOption = 1;
-        let indiceValue = 0;
-
-        let datos = async () => {
-
-            let tatooineService = new TatooineService()
-
-            let array = []
-
-            let getAllRubros = await tatooineService.getAllRubros();
-            if (await getAllRubros.getStatus() == 200) {
-                array = await getAllRubros.getBody();
-            } else if (await getAllRubros.getStatus() >= 400) {
-                alertaTokenInvalido.create()
-                alertaTokenInvalido.setAccion(() => {
-                    window.location.href = "./login.html"
-                    alertaTokenInvalido.borrarAccion()
-                })
-            } else {
-                alertaFalloSelect.create()
-            }
-            return array
-        }
-
-        super(id, indiceOption, indiceValue, datos);
-
-    }
-
-}
-

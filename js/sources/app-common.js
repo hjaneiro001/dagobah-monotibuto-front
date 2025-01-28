@@ -40,7 +40,7 @@ async function mostrarOcultar() {
       ctnFacturacion.classList.remove("d-none")
       if (ctnFacturacion.getAttribute("inicio") == "false") {
         $("#facturacion-section").html(await plantilla.getFacturacion())
-        ctnMateriasPrimas.setAttribute("inicio", "true")
+        ctnFacturacion.setAttribute("inicio", "true")
       }
       break;
 
