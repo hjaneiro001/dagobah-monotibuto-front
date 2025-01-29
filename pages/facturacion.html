@@ -34,34 +34,38 @@
 
 <div class="border-bottom mt-3" style="height: 120px;">
 
-  <div class="container col-4" style="margin-left: 0;" style="height: 120px;" id="customer-select">
-    <div class="position-relative">
-      <input type="text" id="searchInput" class="form-control" placeholder="Ingrese al Cliente..." aria-label="Buscar">
-      <ul class="dropdown-menu" id="dropdownList"></ul>
+  <div class="container col-12" style="margin-left: 0;" style="height: 150px;" id="customer-select">
+    <div class="d-flex justify-content-between align-items-center">
+      <div class="position-relative" style="width: 30%;">
+        <input type="text" id="searchInput" class="form-control fw-bold" placeholder="Ingrese al Cliente..." aria-label="Buscar">
+        <ul class="dropdown-menu" id="dropdownList"></ul>
+      </div>
+      <h5 class="fs-6 mb-0 fw-bold d-flex justify-content-start">Nro: 00100-00000001</h5>
     </div>
+    
+
+    <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pb-2 mb-6 mt-3 d-none"
+      id="datos-cliente-panel">
+
+      <div class="col-5 ms-2">
+        <h5 class="text-secondary fs-6" id="direccion-cliente">Direccion del Cliente</h5>
+        <h5 class="text-secondary fs-6" id="localidad-cliente">Localidad del cliente</h5>
+      </div>
+
+      <div class="col-5 align-items-center">
+        <h5 class="text-secondary fs-6" id="cuit-cliente">Cuit</h5>
+        <h5 class="text-secondary fs-6" id="condicion-cliente">Condicion</h5>
+      </div>
+
+    </div>
+
   </div>
 
-  <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pb-2 mb-3 d-none"
-    style="height: 120px;" id="datos-cliente-panel">
-
-    <div class="mt-1 col-5">
-      <h5 class="fs-6" id="nombre-cliente">Nombre del Cliente</h5>
-      <h5 class="text-secondary fs-6" id="direccion-cliente">Direccion del Cliente</h5>
-      <h5 class="text-secondary fs-6" id="localidad-cliente">Localidad del cliente</h5>
-    </div>
-
-    <div class="mt-1 col-5">
-      <h5 class="fs-6">Nro: 00100-00000001</h5>
-      <h5 class="text-secondary fs-6" id="cuit-cliente">Cuit</h5>
-      <h5 class="text-secondary fs-6" id="condicion-cliente">Condicion</h5>
-    </div>
-
-  </div>
 </div>
 
-<div class="accordion accordion-flush border-bottom mb-4" id="accordionFlushExample">
+<div class="accordion accordion-flush border-bottom mb-4 mt-1" id="accordionFlushExample">
   <div class="accordion-item">
-    <h2 class="accordion-header">
+    <h2 class="accordion-header fw-bold">
       <button class="accordion-button collapsed text-secondary" type="button" data-bs-toggle="collapse"
         data-bs-target="#flush-collapseOne" aria-expanded="false" aria-controls="flush-collapseOne">
         Mas opciones
@@ -69,13 +73,14 @@
     </h2>
     <div id="flush-collapseOne" class="accordion-collapse collapse" data-bs-parent="#accordionFlushExample">
       <div class="accordion-body">
-        <div class="pt-1 pb-1 d-flex justify-content-between align-items-center px-3" style="background-color: #f2f2f2;; height: auto;">
-  
+        <div class="pt-1 pb-1 d-flex justify-content-between align-items-center px-3"
+          style="background-color: #f2f2f2;; height: auto;">
+
           <div class="d-flex flex-column justify-content-start">
             <label for="date-from" class="form-label mb-0">Vencimiento</label>
             <input type="date" id="date-from" class="form-control mb-2" placeholder="Desde" aria-label="">
           </div>
-        
+
           <div class="d-flex flex-row justify-content-end align-items-end">
             <div class="me-2">
               <label for="date-to-1" class="form-label mb-0">Fecha inicial</label>

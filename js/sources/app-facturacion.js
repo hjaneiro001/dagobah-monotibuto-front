@@ -59,12 +59,13 @@ dropdownList.addEventListener("click", async (event) => {
     const clientId = event.target.getAttribute("data-id");
     const clientCuit = event.target.getAttribute("data-cuit");
 
-    input.value = name;
-    
+    const nombre= name.split(" (")[0];
+    input.value = name.split(" (")[0].trimStart();
+
+
     let datos_cliente = await BuscarCliente(clientId)
     cargar_encabezado(datos_cliente.getBody())
-    console.log(datos_cliente.getBody())
-
+    dropdownList.classList.remove("show");
     showDatosClientePanel()
   }
 });
@@ -73,8 +74,15 @@ dropdownList.addEventListener("click", async (event) => {
 document.addEventListener("click", (event) => {
   if (!dropdownList.contains(event.target) && event.target !== input) {
     dropdownList.classList.remove("show");
+    input.value = ""
   }
 });
+
+// Limpia Input
+input.addEventListener("click", ()=> {
+  input.value = ""
+  hideMoreOptions()
+})
 
 // Busca Cliente por id seleccionado
 async function BuscarCliente(params) {
@@ -87,7 +95,6 @@ async function BuscarCliente(params) {
 
 function cargar_encabezado(datos){
 
-  document.getElementById("nombre-cliente").innerText = datos.name
   document.getElementById("direccion-cliente").innerText = datos.address
   document.getElementById("localidad-cliente").innerText = datos.city + " - " + datos.state
   document.getElementById("cuit-cliente").innerText = "Cuit : " + datos.tax_id
@@ -96,19 +103,21 @@ function cargar_encabezado(datos){
 }
 
 function showCustomerSelect() {
-  document.getElementById('customer-select').classList.remove('d-none');
   document.getElementById('datos-cliente-panel').classList.add('d-none');
 }
 
 function showDatosClientePanel() {
   document.getElementById('datos-cliente-panel').classList.remove('d-none');
-  document.getElementById('customer-select').classList.add('d-none');
   showMoreOptions()
 }
 
 function showMoreOptions(){
   document.getElementById("flush-collapseOne").classList.add("show")
 
+}
+
+function hideMoreOptions(){
+  document.getElementById("flush-collapseOne").classList.remove("show")
 }
 
 
