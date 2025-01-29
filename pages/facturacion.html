@@ -8,53 +8,53 @@
     overflow-y: auto;
   }
 </style>
-<div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 mb-1 border-bottom"
+<div class="d-flex justify-content-start flex-wrap flex-md-nowrap align-items-center pt-3 mb-1 border-bottom"
   id="home-section">
   <h1 class="h2">Facturacion</h1>
-  <h1 class="border">C</h1>
-  <div class="btn-toolbar mb-2 mb-md-0">
-    <div class="btn-group">
-      <button id="dropdownButton" type="button"
-        class="btn btn-sm btn-outline-secondary dropdown-toggle d-flex align-items-center gap-1"
-        data-bs-toggle="dropdown" aria-expanded="false">
-        <svg class="bi">
-          <use xlink:href="#file-earmark" />
-        </svg>
-        <span>Factura</span>
-      </button>
-      <ul class="dropdown-menu">
-        <li><a class="dropdown-item" data-value="Factura">Factura</a></li>
-        <li><a class="dropdown-item" data-value="Nota de Credito">Nota de Credito</a></li>
-        <li><a class="dropdown-item" data-value="Nota de Debito">Nota de Debito</a></li>
-      </ul>
-    </div>
-  </div>
 </div>
 
-
 <div class="border-bottom mt-3" style="height: 120px;">
-
   <div class="container col-12" style="margin-left: 0;" style="height: 150px;" id="customer-select">
     <div class="d-flex justify-content-between align-items-center">
-      <div class="position-relative" style="width: 30%;">
-        <input type="text" id="searchInput" class="form-control fw-bold" placeholder="Ingrese al Cliente..." aria-label="Buscar">
+      <div class="position-relative col-5" style="width: 30%;">
+        <input type="text" id="searchInput" class="form-control fw-bold" placeholder="Ingrese al Cliente..."
+          aria-label="Buscar">
         <ul class="dropdown-menu" id="dropdownList"></ul>
       </div>
-      <h5 class="fs-6 mb-0 fw-bold d-flex justify-content-start">Nro: 00100-00000001</h5>
+      <div class="d-flex justify-content-start col-5">
+        <div class="btn-toolbar mb-2 mb-md-0">
+          <div class="btn-group">
+            <button id="dropdownButton" type="button"
+              class="btn btn-sm btn-outline dropdown-toggle d-flex align-items-center gap-1 fs-6 fw-bold"
+              data-bs-toggle="dropdown" aria-expanded="false">
+              <svg class="bi">
+                <use xlink:href="#file-earmark" />
+              </svg>
+              <span>Factura</span>
+            </button>
+            <ul class="dropdown-menu">
+              <li><a class="dropdown-item" data-value="Factura">Factura</a></li>
+              <li><a class="dropdown-item" data-value="Nota de Credito">Nota de Credito</a></li>
+              <li><a class="dropdown-item" data-value="Nota de Debito">Nota de Debito</a></li>
+            </ul>
+          </div>
+        </div>
+        <h5 class="fs-6 mb-0 fw-bold d-flex justify-content-start align-items-center">C - 00100-00000001</h5>
+      </div>
     </div>
-    
 
-    <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pb-2 mb-6 mt-3 d-none"
+
+    <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pb-2 mb-6 mt-1 d-none"
       id="datos-cliente-panel">
 
-      <div class="col-5 ms-2">
+      <div class="col-5 ms-3">
         <h5 class="text-secondary fs-6" id="direccion-cliente">Direccion del Cliente</h5>
         <h5 class="text-secondary fs-6" id="localidad-cliente">Localidad del cliente</h5>
       </div>
 
-      <div class="col-5 align-items-center">
-        <h5 class="text-secondary fs-6" id="cuit-cliente">Cuit</h5>
-        <h5 class="text-secondary fs-6" id="condicion-cliente">Condicion</h5>
+      <div class="col-5 align-items-center ms-5">
+        <h5 class="text-secondary fs-6 ms-4" id="cuit-cliente">Cuit</h5>
+        <h5 class="text-secondary fs-6 ms-4" id="condicion-cliente">Condicion</h5>
       </div>
 
     </div>
