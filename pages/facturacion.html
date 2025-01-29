@@ -39,6 +39,14 @@
         .cantidad, .precio, .descuento {
             text-align: right; /* Alineado a la derecha */
         }
+  
+  .descuento{
+    width: 70%;
+  }
+
+  .total {
+    text-align: right !important; 
+  }
 
   .btn {
     padding: 5px 10px;
@@ -149,7 +157,7 @@
       <th>Producto</th>
       <th>Cantidad</th>
       <th>Precio</th>
-      <th>Descuento (%)</th>
+      <th>Desc. (%)</th>
       <th>Total</th>
       <th>Acciones</th>
     </tr>
@@ -167,7 +175,7 @@
       <td><input type="number" class="cantidad" min="1"></td>
       <td><input type="number" class="precio" min="0"></td>
       <td><input type="number" class="descuento" min="0" max="100"></td>
-      <td class="total">0</td>
+      <td class="total">0.00</td>
       <td>
         <button class="btn btn-delete">🗑</button>
       </td>

@@ -182,7 +182,7 @@ $(document).ready(function() {
           '<input type="number" class="cantidad" min="0.0001">',
           '<input type="number" class="precio" min="0">',
           '<input type="number" class="descuento" min="0" max="100">',
-          '<span class="total">0</span>',
+          '<div class="total" style="text-align: right;">0.00</div>',
           '<button class="btn btn-delete">🗑</button>'
       ]).draw(false);
 
