@@ -72,7 +72,7 @@ dropdownList.addEventListener("click", async (event) => {
 
 // Cierra lista desplegable con missclick
 document.addEventListener("click", (event) => {
-  if (!dropdownList.contains(event.target) && event.target !== input) {
+  if (!dropdownList.contains(event.target) && event.target !== input && dropdownList.classList.contains("show"))  {
     dropdownList.classList.remove("show");
     input.value = ""
   }
@@ -80,9 +80,9 @@ document.addEventListener("click", (event) => {
 
 // Limpia Input
 input.addEventListener("click", ()=> {
-  input.value = ""
-  hideMoreOptions()
+  resetDatosCliente()
 })
+
 
 // Busca Cliente por id seleccionado
 async function BuscarCliente(params) {
@@ -102,7 +102,13 @@ function cargar_encabezado(datos){
 
 }
 
-function showCustomerSelect() {
+function resetDatosCliente(){
+  input.value = ""
+  hideDatosCliente()
+  hideMoreOptions()
+}
+
+function hideDatosCliente() {
   document.getElementById('datos-cliente-panel').classList.add('d-none');
 }
 
