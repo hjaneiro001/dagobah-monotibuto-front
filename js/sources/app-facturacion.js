@@ -3,10 +3,39 @@ import {
   ApiService
 } from "../clases/apiService.js"
 
-
 const apiservice = new ApiService()
 
-// Dropdown Tipo Facturas
+// Carga Productos en select
+let productos = await apiservice.getAllProductos()
+let array_productos = await productos.getBody()
+
+const selectElement = document.getElementById("select-producto"); // Asegúrate de que existe este <select> en tu HTML
+
+// Limpiar opciones anteriores (si las hubiera)
+selectElement.innerHTML = "";
+
+// Agregar opción por defecto (opcional)
+let defaultOption = document.createElement("option");
+defaultOption.text = "Seleccione un producto";
+defaultOption.value = "";
+selectElement.appendChild(defaultOption);
+
+// Recorrer array y agregar opciones
+array_productos.forEach(producto => {
+    let option = document.createElement("option");
+    option.value = producto.id; // Usa el identificador del producto
+    option.setAttribute("data-precio", producto.price); // Establece el atributo data-precio correctamente
+    option.text = producto.name; // Usa el nombre del producto
+    selectElement.appendChild(option);
+});
+
+// Fin carga productos
+
+// Dropdown Cliente
+
+let getAllClientes = await apiservice.getAllClientes()
+const options = await getAllClientes.getBody()
+
 const dropdownButton = document.getElementById('dropdownButton');
 const dropdownItems = document.querySelectorAll('.dropdown-item');
 
@@ -17,10 +46,6 @@ dropdownItems.forEach(item => {
     dropdownButton.querySelector('span').textContent = selectedText;
   });
 });
-
-
-let getAllClientes = await apiservice.getAllClientes()
-const options = await getAllClientes.getBody()
 
 const input = document.getElementById("searchInput");
 const dropdownList = document.getElementById("dropdownList");
@@ -176,29 +201,35 @@ $(document).ready(function() {
 
   // Evento para agregar una nueva fila
   $("#btnNuevoItem").click(function() {
-      if (!ultimaFilaCompleta()) return;
 
-      table.row.add([
-          `<select class="producto">
-              <option value="">Seleccionar producto</option>
-              <option value="Producto A" data-precio="100">Producto A</option>
-              <option value="Producto B" data-precio="200">Producto B</option>
-              <option value="Producto C" data-precio="300">Producto C</option>
-          </select>`,
-          '<input type="number" class="cantidad" min="0.0001">',
-          '<input type="number" class="precio" min="0">',
-          '<input type="number" class="descuento" min="0" max="100">',
-          '<div class="total" style="text-align: right;">0.00</div>',
-          '<button class="btn btn-delete">🗑</button>'
-      ]).draw(false);
+    if (!ultimaFilaCompleta()) return;
 
-      // Deshabilitar el botón hasta que la nueva fila tenga datos
-      $("#btnNuevoItem").prop("disabled", true);
-  });
+    let selectHTML = `<select class="producto">
+                          <option value="">Seleccionar producto</option>`;
+    
+    array_productos.forEach(producto => {
+        selectHTML += `<option value="${producto.id}" data-precio="${producto.price}">( ${producto.code} ) - ${producto.name}</option>`;
+    });
+
+    selectHTML += `</select>`;
+
+    table.row.add([
+        selectHTML,
+        '<input type="number" class="cantidad" min="0.0001">',
+        '<input type="number" class="precio" min="0">',
+        '<input type="number" class="descuento" min="0" max="100">',
+        '<div class="total" style="text-align: right;">0.00</div>',
+        '<button class="btn btn-delete">🗑</button>'
+    ]).draw(false);
+
+    // Deshabilitar el botón hasta que la nueva fila tenga datos
+    $("#btnNuevoItem").prop("disabled", true);
+});
 
   // Evento para eliminar una fila
   $(document).on("click", ".btn-delete", function() {
       table.row($(this).closest("tr")).remove().draw(false);
       $("#btnNuevoItem").prop("disabled", !ultimaFilaCompleta());
   });
+
 });

@@ -59,6 +59,11 @@
   .btn:disabled {
     cursor: not-allowed;
   }
+
+  /* .producto {
+  max-height: 100px !important; 
+  overflow-y: auto !important;
+} */
 </style>
 
 
@@ -151,6 +156,7 @@
   </div>
 </div>
 
+<!-- DATATABLE -->
 <table id="facturaItems" class="display">
   <thead>
     <tr>
@@ -165,11 +171,8 @@
   <tbody>
     <tr>
       <td>
-        <select class="producto">
+        <select id="select-producto" class="producto">
           <option value="">Seleccionar producto</option>
-          <option value="Producto A" data-precio="100">Producto A</option>
-          <option value="Producto B" data-precio="200">Producto B</option>
-          <option value="Producto C" data-precio="300">Producto C</option>
         </select>
       </td>
       <td><input type="number" class="cantidad" min="1"></td>
