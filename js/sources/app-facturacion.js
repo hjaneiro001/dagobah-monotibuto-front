@@ -3,6 +3,7 @@ import {
   ApiService
 } from "../clases/apiService.js"
 
+
 const apiservice = new ApiService()
 
 // Dropdown Tipo Facturas
@@ -125,6 +126,11 @@ function showMoreOptions(){
 function hideMoreOptions(){
   document.getElementById("flush-collapseOne").classList.remove("show")
 }
+
+
+
+//DATATABLE
+
 $(document).ready(function() {
   let table = $('#facturaItems').DataTable({
       paging: false,

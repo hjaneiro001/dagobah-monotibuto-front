@@ -101,6 +101,8 @@ export class ApiService {
     
     }
 
+    //CLIENTES
+    
     async getAllClientes(){
       try {
         let response = await fetch(this.url + "clients/");
@@ -126,23 +128,6 @@ export class ApiService {
 
     }
 
-    // async getAllClientes() {
-
-    //   let response = await fetch(this.url + "clients/", {
-    //     method: "GET", 
-    //     headers: {
-    //       "Content-Type": "application/json"
-    //     }
-    //   });
-    
-    //   let data = await response.json();
-    
-    //   return {
-    //     getStatus: () => response.status,
-    //     getBody: () => data
-    //   };
-    // }
-
     async getCliente(id){
 
       let response = await fetch("http://localhost:5000/clients/"+id);
@@ -155,26 +140,34 @@ export class ApiService {
 
     }
 
-    // async getAllClientes() {
-    //     let endPoint = this.url + "clients/"
-    //     let response = await fetch(endPoint);
-    //     let data = await response.json();
     
-    //     return {
-    //       getStatus: () => response.status, // Devuelve el código de estado
-    //       getBody: () => data              // Devuelve el cuerpo de la respuesta
-    //     };
-    //   }
+    //PRODUCTOS
 
-    // Clientes
-    //Get All Clientes
-    // async getAllClientes() {
-    //     let endPoint = this.url + "clients/"
 
-    //     // this.#addToken();
+    async getAllProductos(){
+      try {
+        let response = await fetch(this.url + "products/");
+        
+        if (!response.ok) {
+          throw new Error(`HTTP error! Status: ${response.status}`);
+        }
+    
+        let data = await response.json();
+    
+        return {
+          getStatus: () => response.status,
+          getBody: () => data             
+        };
 
-    //     return await this.request.GET(endPoint, this.headers);
-    // }
+      } catch (error) {
+        console.error("Error fetching productss:", error);
+        return {
+          getStatus: () => null, 
+          getBody: () => { return { error: error.message }; }
+        };
+      }
+
+    }
 
    
 }
