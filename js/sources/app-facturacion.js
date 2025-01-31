@@ -117,6 +117,10 @@ async function BuscarCliente(params) {
  
 }
 
+function clacular_total(){
+  alert(table.row)
+
+}
 // Carga los datos del cliente en encabezado documento
 
 function cargar_encabezado(datos){
@@ -230,6 +234,33 @@ $(document).ready(function() {
   $(document).on("click", ".btn-delete", function() {
       table.row($(this).closest("tr")).remove().draw(false);
       $("#btnNuevoItem").prop("disabled", !ultimaFilaCompleta());
+      calcularTotalFactura()
   });
+
+  $(document).on("input change", ".cantidad, .precio, .descuento", function() {
+    let fila = $(this).closest("tr");
+    let cantidad = parseFloat(fila.find(".cantidad").val()) || 0;
+    let precio = parseFloat(fila.find(".precio").val()) || 0;
+    let descuento = parseFloat(fila.find(".descuento").val()) || 0;
+
+    let subtotal = cantidad * precio;
+    let totalConDescuento = subtotal - (subtotal * descuento / 100);
+
+    fila.find(".total").text(totalConDescuento.toFixed(2));
+
+    calcularTotalFactura(); 
+});
+
+  function calcularTotalFactura() {
+    let totalFactura = 0;
+
+    $("#facturaItems tbody tr").each(function() {
+        let totalItem = parseFloat($(this).find(".total").text()) || 0;
+        totalFactura += totalItem;
+    });
+
+    $("#totalFactura").text(totalFactura.toFixed(2));
+}
+
 
 });

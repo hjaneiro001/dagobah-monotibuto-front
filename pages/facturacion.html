@@ -30,22 +30,28 @@
     text-align: center;
   }
 
-  input, select {
-            width: 100%;
-            padding: 5px;
-            box-sizing: border-box;
-            border: 1px solid darkgrey; /* Borde en darkgrey */
-        }
-        .cantidad, .precio, .descuento {
-            text-align: right; /* Alineado a la derecha */
-        }
-  
-  .descuento{
+  input,
+  select {
+    width: 100%;
+    padding: 5px;
+    box-sizing: border-box;
+    border: 1px solid darkgrey;
+    /* Borde en darkgrey */
+  }
+
+  .cantidad,
+  .precio,
+  .descuento {
+    text-align: right;
+    /* Alineado a la derecha */
+  }
+
+  .descuento {
     width: 70%;
   }
 
   .total {
-    text-align: right !important; 
+    text-align: right !important;
   }
 
   .btn {
@@ -54,6 +60,15 @@
     cursor: pointer;
     font-size: 14px;
     background-color: transparent;
+  }
+  
+  .btn-custom{
+    padding: 8px 20px;
+    border: 1px grey;
+    color: black;
+    cursor: pointer;
+    font-size: 18px;
+    background-color: lightgrey;
   }
 
   .btn:disabled {
@@ -188,6 +203,27 @@
 
 <br>
 <button id="btnNuevoItem" class="btn" disabled>+ Nuevo Item</button>
+
+<hr>
+<div class="d-dlex justify-content-end fw-bold h5 row">
+  <div class="d-flex justify-content-center mb-0 col-4">
+    <p class="mb-0 me-2">Total : $</p>
+    <p id="totalFactura" class="d-flex justify-content-start mb-0">0.00</p>
+  </div>
+</div>
+<hr>
+<div class="d-flex justify-content-between">
+  <div>
+    <button type="button" class="btn btn-ligth btn-lg btn-custom me-2">Emitir</button>
+    <button type="button" class="btn btn-ligth btn-lg btn-custom">Reset</button>
+
+  </div>
+  <div class="me-4">
+    <button type="button" class="btn btn-ligth btn-lg btn-custom">Salir</button>
+  </div>
+
+</div>
+
 
 
 <script src="../js/sources/app-facturacion.js" type="module"></script>
