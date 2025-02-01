@@ -3,7 +3,15 @@ import {
   ApiService
 } from "../clases/apiService.js"
 
+import{
+  Spinner
+}from "../clases/spinner.js"
+
 const apiservice = new ApiService()
+
+//Crea Spinner
+let obj_spinner = new Spinner
+
 
 // Carga Productos en select
 let productos = await apiservice.getAllProductos()
@@ -264,3 +272,32 @@ $(document).ready(function() {
 
 
 });
+
+document.getElementById("emitir-documento").addEventListener("click",async ()=>{
+  obj_spinner.show()
+  let document_body = {
+    "client_id": 15,
+    "document_type": "FACTURAC",
+    "date": "20250131",
+    "date_serv_from":"20250131",
+    "date_serv_to": "20250131",
+    "expiration_date": "20250131",
+    "currency": "PESOS",
+    "exchange_rate": 1.0,
+     "items": [
+      {
+        "document_id": 11,
+        "product_id": 11,
+        "quantity": 1.0,
+        "tax_rate": "IVA 21%",
+        "unit_price": 1000.0
+      }
+    ]
+  }
+
+  let response = await apiservice.postDocument(document_body)
+  obj_spinner.hide()
+  let body = response.getBody()
+  console.log("cae : " + body["Document id"].CAE); // Accede correctamente a CAE
+  console.log("Cae Vto : " + body["Document id"].CAEFchVto); // Accede a CAEFchVto
+})
