@@ -301,28 +301,31 @@ document.getElementById("emitir-documento").addEventListener("click", async () =
     ]
   }
 
-  let response = await apiservice.postDocument(document_body)
-  let body = response.getBody()
+  // let response = await apiservice.postDocument(document_body)
+  // let body = response.getBody()
   obj_spinner.hide()
   let msg = `
-   <div>
-      <strong>Factura Emitida!</strong> <br>
-      CAE: <span id="cae">${body["Document id"].CAE}</span> &nbsp;
-      VTO-CAE: <span id="vto-cae">${body["Document id"].CAEFchVto}</span>
-    </div>
-    
-    <a class="d-flex justify-content-center align-items-center mt-3 text-dark fw-bold" style="cursor: pointer; text-decoration: none;">
-      <svg class="bi me-2" width="24" height="24">
-        <use href="#file-download"></use>
-      </svg>
-      Descargar factura
-    </a>
   
-    <button type="button" id="btn-close-fact" class="btn-close position-absolute top-0 end-0 m-2" data-bs-dismiss="alert" aria-label="Close"></button>
-  </div>
+   <div class="me-4">
+   <strong>Factura Emitida!</strong> <br>
+   </div>
+   <a id="get-bill" class="d-flex justify-content-center align-items-center text-dark fw-bold ms-4" style="cursor: pointer; text-decoration: none;">
+   <svg class="bi" width="24" height="24">
+   <use href="#file-download"></use>
+   </svg>
+   Descargar factura
+   </a>
+
+   <button type="button" id="btn-close-fact" class="btn-close position-absolute top-0 end-0 m-2" data-bs-dismiss="alert" aria-label="Close"></button>
   `
   obj_alert.message(msg)
   obj_alert.show()
-  // console.log("cae : " + body["Document id"].CAE); // Accede correctamente a CAE
-  // console.log("Cae Vto : " + body["Document id"].CAEFchVto); // Accede a CAEFchVto
 })
+
+document.body.addEventListener("click", async (event) => {
+  if (event.target && event.target.id === "get-bill") {
+    obj_spinner.show()
+    await apiservice.getBill(225)
+    obj_spinner.hide()
+  }
+});
