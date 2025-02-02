@@ -76,9 +76,12 @@
   }
 
 </style>
-
+<!-- 
 <div id="spinner">
-</div>
+</div> -->
+<!-- Botón para abrir el modal -->
+<button type="button" class="btn btn-primary" onclick="getBill(1)">Ver Factura</button>
+
 
 <div class="d-flex justify-content-start flex-wrap flex-md-nowrap align-items-center pt-3 mb-1 border-bottom"
   id="home-section">
@@ -220,6 +223,22 @@
     <button type="button" class="btn btn-ligth btn-lg btn-custom">Salir</button>
   </div>
 
+</div>
+
+
+<!-- Modal de FACTURA -->
+<div class="modal fade" id="pdfModal" tabindex="-1" aria-labelledby="pdfModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-xl"> <!-- Clase modal-xl para mayor tamaño -->
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="pdfModalLabel">Vista Previa de la Factura</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Cerrar"></button>
+            </div>
+            <div class="modal-body" style="height: 80vh;"> <!-- Alto del modal dinámico -->
+                <iframe id="pdfFrame" width="100%" height="100%" style="border: none;"></iframe>
+            </div>
+        </div>
+    </div>
 </div>
 
 

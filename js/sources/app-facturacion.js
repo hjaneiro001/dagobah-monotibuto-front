@@ -305,21 +305,12 @@ document.getElementById("emitir-documento").addEventListener("click", async () =
   // let body = response.getBody()
   obj_spinner.hide()
   let msg = `
-  
-   <div class="me-4">
-   <strong>Factura Emitida!</strong> <br>
-   </div>
-   <a id="get-bill" class="d-flex justify-content-center align-items-center text-dark fw-bold ms-4" style="cursor: pointer; text-decoration: none;">
-   <svg class="bi" width="24" height="24">
-   <use href="#file-download"></use>
-   </svg>
-   Descargar factura
-   </a>
-
-   <button type="button" id="btn-close-fact" class="btn-close position-absolute top-0 end-0 m-2" data-bs-dismiss="alert" aria-label="Close"></button>
-  `
+       Factura emitida con exito <a id="get-bill" class="alert-link" style="cursor: pointer">C 00100-00000002</a>. 
+       click para descargar
+       `
   obj_alert.message(msg)
   obj_alert.show()
+
 })
 
 document.body.addEventListener("click", async (event) => {

@@ -102,25 +102,29 @@ export class ApiService {
         getBody: () => data,
       };
     }
-    
-    async getBill(id){
 
-        let response = await fetch(`http://localhost:5000/documents/bill/${id}`);
-    
-        if (!response.ok) {
-            throw new Error(`Error al obtener el PDF: ${response.statusText}`);
-        }
-    
-        let blob = await response.blob(); // Convertir la respuesta en un Blob
-        let url = window.URL.createObjectURL(blob); // Crear una URL para el Blob
-    
-        // Abrir el PDF en una nueva pestaña
-        window.open(url, '_blank');
-    
-        // Liberar la URL creada cuando ya no se necesite
-        setTimeout(() => window.URL.revokeObjectURL(url), 5000);
+    async  getBill(id) {
+      let response = await fetch(`http://localhost:5000/documents/bill/${id}`);
   
-    }
+      if (!response.ok) {
+          throw new Error(`Error al obtener el PDF: ${response.statusText}`);
+      }
+  
+      let blob = await response.blob();
+      let url = window.URL.createObjectURL(blob);
+  
+      // Insertar el PDF en el iframe dentro del modal
+      let pdfFrame = document.getElementById("pdfFrame");
+      pdfFrame.src = url;
+  
+      // Mostrar el modal
+      let modal = new bootstrap.Modal(document.getElementById("pdfModal"));
+      modal.show();
+  
+      // Liberar la URL creada después de un tiempo para evitar desperdicio de memoria
+      setTimeout(() => window.URL.revokeObjectURL(url), 5000);
+  }
+  
    
 }
 
