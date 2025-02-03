@@ -10,6 +10,7 @@ import {
 
 const ctnHome = document.getElementById("home-section")
 const ctnFacturacion = document.getElementById("facturacion-section")
+const ctnComprobantes = document.getElementById("comprobantes-section")
 const ctnClientes = document.getElementById("clientes-section")
 const ctnProductos = document.getElementById("productos-section")
 
@@ -21,8 +22,10 @@ async function mostrarOcultar() {
 
   ctnHome.classList.add('d-none')
   ctnFacturacion.classList.add("d-none")
+  ctnComprobantes.classList.add("d-none")
   ctnClientes.classList.add("d-none")
   ctnProductos.classList.add("d-none")
+
 
   switch (location.hash) {
 
@@ -43,6 +46,16 @@ async function mostrarOcultar() {
         ctnFacturacion.setAttribute("inicio", "true")
       }
       break;
+
+
+    case "#/comprobantes":
+
+    ctnComprobantes.classList.remove("d-none")
+    if (ctnComprobantes.getAttribute("inicio") == "false") {
+      $("#comprobantes-section").html(await plantilla.getComprobantes())
+      ctnComprobantes.setAttribute("inicio", "true")
+    }
+    break;
 
     case "#/clientes":
 
@@ -78,8 +91,8 @@ botonHome.forEach(element => {
   });
 })
 
-document.getElementById("boton-menu-facturacion").addEventListener("click", () => {
-  location.hash = "/facturacion"
+document.getElementById("boton-menu-comprobantes").addEventListener("click", () => {
+  location.hash = "/comprobantes"
 })
 
 document.getElementById("boton-menu-clientes").addEventListener("click", () => {

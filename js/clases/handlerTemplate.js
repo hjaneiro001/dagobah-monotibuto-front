@@ -14,6 +14,10 @@ export class handlerTemplate {
         return await this.html("../pages/facturacion.html")
     }
   
+    async getComprobantes(){
+        return await this.html("../pages/comprobantes.html")
+    }
+  
     async getClientes(){
         return await this.html("./pages/clientes.html")
     }
