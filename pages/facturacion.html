@@ -75,10 +75,15 @@
     cursor: not-allowed;
   }
 
+  .disabled {
+    cursor: not-allowed;
+    pointer-events: none;
+    opacity: 0.5;
+}
+
+
 </style>
-<!-- 
-<div id="spinner">
-</div> -->
+
 <!-- Botón para abrir el modal -->
 <button type="button" class="btn btn-primary" onclick="getBill(1)">Ver Factura</button>
 
@@ -91,13 +96,15 @@
 <div class="border-bottom mt-3" style="height: 120px;">
   <div class="container col-12" style="margin-left: 0;" style="height: 150px;" id="customer-select">
     <div class="d-flex justify-content-between align-items-center">
+
       <div class="position-relative col-5" style="width: 30%;">
         <input type="text" id="searchInput" class="form-control fw-bold" placeholder="Ingrese al Cliente..."
           aria-label="Buscar">
         <ul class="dropdown-menu" id="dropdownList"></ul>
       </div>
+
       <div class="d-flex justify-content-start col-5">
-        <div class="btn-toolbar mb-2 mb-md-0">
+        <div id="select-comprobantes" class="btn-toolbar mb-2 mb-md-0 disabled">
           <div class="btn-group">
             <button id="dropdownButton" type="button"
               class="btn btn-sm btn-outline dropdown-toggle d-flex align-items-center gap-1 fs-6 fw-bold"
@@ -108,16 +115,16 @@
               <span>Factura</span>
             </button>
             <ul class="dropdown-menu">
-              <li><a class="dropdown-item" data-value="Factura">Factura</a></li>
-              <li><a class="dropdown-item" data-value="Nota de Credito">Nota de Credito</a></li>
-              <li><a class="dropdown-item" data-value="Nota de Debito">Nota de Debito</a></li>
+              <li><a class="dropdown-item item-comprobante" arca-value="FACTURAC" data-value="Factura">Factura</a></li>
+              <li><a class="dropdown-item item-comprobante" arca-value="NCREDITOC" data-value="Nota de Credito">Nota de Credito</a></li>
+              <li><a class="dropdown-item item-comprobante" arca-value="NDEBITOC" data-value="Nota de Debito">Nota de Debito</a></li>    
             </ul>
           </div>
         </div>
         <h5 class="fs-6 mb-0 fw-bold d-flex justify-content-start align-items-center">C - 00100-00000001</h5>
       </div>
-    </div>
 
+    </div>
 
     <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pb-2 mb-6 mt-1 d-none"
       id="datos-cliente-panel">
@@ -138,7 +145,7 @@
 
 </div>
 
-<div class="accordion accordion-flush border-bottom mb-4 mt-1" id="accordionFlushExample">
+<div class="accordion accordion-flush border-bottom mb-4 mt-1" disabled id="accordionFlushExample">
   <div class="accordion-item">
     <h2 class="accordion-header fw-bold">
       <button class="accordion-button collapsed text-secondary" type="button" data-bs-toggle="collapse"
@@ -153,17 +160,17 @@
 
           <div class="d-flex flex-column justify-content-start">
             <label for="date-from" class="form-label mb-0">Vencimiento</label>
-            <input type="date" id="date-from" class="form-control mb-2" placeholder="Desde" aria-label="">
+            <input type="date" id="date-vto" class="form-control mb-2" placeholder="Desde" aria-label="">
           </div>
 
           <div class="d-flex flex-row justify-content-end align-items-end">
             <div class="me-2">
-              <label for="date-to-1" class="form-label mb-0">Fecha inicial</label>
-              <input type="date" id="date-to-1" class="form-control" placeholder="Fecha inicial" aria-label="">
+              <label for="date-to-1" class="form-label mb-0">Fecha desde</label>
+              <input type="date" id="date-from" class="form-control" placeholder="Desde" aria-label="">
             </div>
             <div>
-              <label for="date-to-2" class="form-label mb-0">Fecha final</label>
-              <input type="date" id="date-to-2" class="form-control" placeholder="Fecha final" aria-label="">
+              <label for="date-to-2" class="form-label mb-0">Fecha hasta</label>
+              <input type="date" id="date-to" class="form-control" placeholder="Hasta" aria-label="">
             </div>
           </div>
         </div>
@@ -173,7 +180,7 @@
 </div>
 
 <!-- DATATABLE -->
-<table id="facturaItems" class="display">
+<table id="facturaItems" class="display" disabled>
   <thead>
     <tr>
       <th>Producto</th>
@@ -216,31 +223,14 @@
 <div class="d-flex justify-content-between">
   <div>
     <button id="emitir-documento" type="button" class="btn btn-ligth btn-lg btn-custom me-2">Emitir</button>
-    <button type="button" class="btn btn-ligth btn-lg btn-custom">Reset</button>
+    <button id="reset-comprobante" type="button" class="btn btn-ligth btn-lg btn-custom">Reset</button>
 
   </div>
   <div class="me-4">
-    <button type="button" class="btn btn-ligth btn-lg btn-custom">Salir</button>
+    <button id="btn-salir-facturacion" type="button" class="btn btn-ligth btn-lg btn-custom">Salir</button>
   </div>
 
 </div>
-
-
-<!-- Modal de FACTURA -->
-<div class="modal fade" id="pdfModal" tabindex="-1" aria-labelledby="pdfModalLabel" aria-hidden="true">
-    <div class="modal-dialog modal-xl"> <!-- Clase modal-xl para mayor tamaño -->
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" id="pdfModalLabel">Vista Previa de la Factura</h5>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Cerrar"></button>
-            </div>
-            <div class="modal-body" style="height: 80vh;"> <!-- Alto del modal dinámico -->
-                <iframe id="pdfFrame" width="100%" height="100%" style="border: none;"></iframe>
-            </div>
-        </div>
-    </div>
-</div>
-
 
 
 <script src="../js/sources/app-facturacion.js" type="module"></script>

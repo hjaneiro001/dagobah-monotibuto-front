@@ -11,13 +11,29 @@ import {
   Alert
 } from "../clases/alert.js"
 
+import {
+  DocumentBody
+} from "../clases/document_body.js"
+
+
 const apiservice = new ApiService()
+
+// Crea Document_body
+let document_body = new DocumentBody()
 
 //Crea Spinner
 let obj_spinner = new Spinner
 
 // Crea Alert
 let obj_alert = new Alert
+
+// Var del Datatable
+var table;
+
+//Inicializa comprobantes
+inicializaFechas()
+bloquear_comprobantes()
+
 
 // Carga Productos en select
 let productos = await apiservice.getAllProductos()
@@ -37,19 +53,24 @@ selectElement.appendChild(defaultOption);
 // Recorrer array y agregar opciones
 array_productos.forEach(producto => {
   let option = document.createElement("option");
-  option.value = producto.id; // Usa el identificador del producto
+  option.setAttribute("data-id", producto.product_id); // Establece el atributo data-id correctamente
   option.setAttribute("data-precio", producto.price); // Establece el atributo data-precio correctamente
   option.text = producto.name; // Usa el nombre del producto
   selectElement.appendChild(option);
 });
+// // Fin carga productos
 
-// Fin carga productos
+// document.getElementById("select-producto").addEventListener("change", function() {
+//   let selectedOption = selectElement.options[selectElement.selectedIndex];
+//   let productId = selectedOption.getAttribute("data-id");
+//   let productPrice = selectedOption.getAttribute("data-precio");
 
-// Dropdown Cliente
+//   console.log("ID del producto:", productId);
+//   console.log("Precio del producto:", productPrice);
+// });
 
-let getAllClientes = await apiservice.getAllClientes()
-const options = await getAllClientes.getBody()
 
+// Tipo Comprobante
 const dropdownButton = document.getElementById('dropdownButton');
 const dropdownItems = document.querySelectorAll('.dropdown-item');
 
@@ -57,9 +78,17 @@ dropdownItems.forEach(item => {
   item.addEventListener('click', (e) => {
     e.preventDefault();
     const selectedText = item.getAttribute('data-value');
+    const document_type = item.getAttribute('arca-value')
+    document_body.setDocumentType(document_type)
     dropdownButton.querySelector('span').textContent = selectedText;
   });
 });
+
+
+// Dropdown Cliente
+
+let getAllClientes = await apiservice.getAllClientes()
+const options = await getAllClientes.getBody()
 
 const input = document.getElementById("searchInput");
 const dropdownList = document.getElementById("dropdownList");
@@ -97,6 +126,7 @@ dropdownList.addEventListener("click", async (event) => {
   if (event.target.tagName === "BUTTON") {
     const name = event.target.textContent;
     const clientId = event.target.getAttribute("data-id");
+    document_body.setClientId(clientId)
     const clientCuit = event.target.getAttribute("data-cuit");
 
     const nombre = name.split(" (")[0];
@@ -107,6 +137,7 @@ dropdownList.addEventListener("click", async (event) => {
     cargar_encabezado(datos_cliente.getBody())
     dropdownList.classList.remove("show");
     showDatosClientePanel()
+    desbloquear_comprobantes()
   }
 });
 
@@ -131,10 +162,6 @@ async function BuscarCliente(params) {
 
 }
 
-function clacular_total() {
-  alert(table.row)
-
-}
 // Carga los datos del cliente en encabezado documento
 
 function cargar_encabezado(datos) {
@@ -171,11 +198,9 @@ function hideMoreOptions() {
 }
 
 
-
 //DATATABLE
-
 $(document).ready(function () {
-  let table = $('#facturaItems').DataTable({
+  table = $('#facturaItems').DataTable({
     paging: false,
     searching: false,
     ordering: false,
@@ -215,18 +240,20 @@ $(document).ready(function () {
     let fila = $(this).closest("tr");
     let precioBase = $(this).find("option:selected").data("precio") || 0;
     fila.find(".precio").val(precioBase).trigger("input"); // Disparar evento de input para recalcular
+    let productoID = $(this).find("option:selected").data("data-id");
+    alert(productoID)
   });
 
   // Evento para agregar una nueva fila
   $("#btnNuevoItem").click(function () {
 
-    if (!ultimaFilaCompleta()) return;
+    // if (!ultimaFilaCompleta()) return;
 
     let selectHTML = `<select class="producto">
                           <option value="">Seleccionar producto</option>`;
 
     array_productos.forEach(producto => {
-      selectHTML += `<option value="${producto.id}" data-precio="${producto.price}">( ${producto.code} ) - ${producto.name}</option>`;
+      selectHTML += `<option data-id="${producto.product_id}" data-precio="${producto.price}">( ${producto.code} ) - ${producto.name}</option>`;
     });
 
     selectHTML += `</select>`;
@@ -240,6 +267,21 @@ $(document).ready(function () {
       '<button class="btn btn-delete">🗑</button>'
     ]).draw(false);
 
+    //Prueba
+  //   $(document).on('change', '.producto', function() {
+  //     let selectedOption = $(this).find(':selected'); 
+  //     let productId = selectedOption.data('id'); 
+  //     let price = selectedOption.data('precio');
+  
+  //     console.log("Producto ID:", productId);
+  //     console.log("Precio:", price);
+  
+  //     // Opcional: establecer el precio automáticamente en el input correspondiente
+  //     let row = $(this).closest('tr');
+  //     row.find('.precio').val(price);
+  // });
+  
+
     // Deshabilitar el botón hasta que la nueva fila tenga datos
     $("#btnNuevoItem").prop("disabled", true);
   });
@@ -247,7 +289,8 @@ $(document).ready(function () {
   // Evento para eliminar una fila
   $(document).on("click", ".btn-delete", function () {
     table.row($(this).closest("tr")).remove().draw(false);
-    $("#btnNuevoItem").prop("disabled", !ultimaFilaCompleta());
+    // $("#btnNuevoItem").prop("disabled", !ultimaFilaCompleta());
+    $("#btnNuevoItem").prop("disabled", false);
     calcularTotalFactura()
   });
 
@@ -276,30 +319,70 @@ $(document).ready(function () {
     $("#totalFactura").text(totalFactura.toFixed(2));
   }
 
-
 });
+
+document.getElementById("date-vto").addEventListener("change", function() {
+    let fecha = this.value; // Formato YYYY-MM-DD
+    document_body.setDateExpiration(fecha.replace(/-/g, "")); // Remueve los guiones
+})
+
+document.getElementById("date-from").addEventListener("change", function() {
+  let fecha = this.value; // Formato YYYY-MM-DD
+  document_body.setDateFrom(fecha.replace(/-/g, "")); // Remueve los guiones
+})
+
+document.getElementById("date-to").addEventListener("change", function() {
+  let fecha = this.value; // Formato YYYY-MM-DD
+  document_body.setDateTo(fecha.replace(/-/g, "")); // Remueve los guiones
+})
+
+// Construye items en el body
+// function construir_items() {
+//   $("#facturaItems tbody tr").each(function () {
+//       let fila = $(this);
+//       let select = fila.find("select.producto");
+
+//       console.log(select)
+//       if (select.length === 0) {
+//           console.error("No se encontró el select en la fila:", fila);
+//           return;
+//       }
+
+//       // Obtener el valor del atributo "value" de la opción seleccionada
+//       let productId = select.find("option:selected").attr("data-id");
+//       let quantity = parseFloat(fila.find("input.cantidad").val()) || 0;
+//       let unitPrice = parseFloat(fila.find("input.precio").val()) || 0;
+//       let discount = parseFloat(fila.find("input.descuento").val()) || 0;
+
+//   });
+// }
 
 document.getElementById("emitir-documento").addEventListener("click", async () => {
   obj_spinner.show()
-  let document_body = {
-    "client_id": 15,
-    "document_type": "FACTURAC",
-    "date": "20250131",
-    "date_serv_from": "20250131",
-    "date_serv_to": "20250131",
-    "expiration_date": "20250131",
-    "currency": "PESOS",
-    "exchange_rate": 1.0,
-    "items": [
-      {
-        "document_id": 11,
-        "product_id": 11,
-        "quantity": 1.0,
-        "tax_rate": "IVA 21%",
-        "unit_price": 1000.0
-      }
-    ]
-  }
+  construir_items()
+  // document_body.addItem(11, 11, 1.0, "IVA 21%", 1000.0);
+  console.log(document_body.data)
+
+  // let document_body = {
+  //   "client_id": 15,
+  //   "document_type": "FACTURAC",
+  //   "date": "20250131",
+  //   "date_serv_from": "20250131",
+  //   "date_serv_to": "20250131",
+  //   "expiration_date": "20250131",
+  //   "currency": "PESOS",
+  //   "exchange_rate": 1.0,
+  //   "CondicionIVAReceptorId": 6,
+  //   "items": [
+  //     {
+  //       "document_id": 11,
+  //       "product_id": 11,
+  //       "quantity": 1.0,
+  //       "tax_rate": "IVA 21%",
+  //       "unit_price": 1000.0
+  //     }
+  //   ]
+  // }
 
   // let response = await apiservice.postDocument(document_body)
   // let body = response.getBody()
@@ -310,13 +393,74 @@ document.getElementById("emitir-documento").addEventListener("click", async () =
        `
   obj_alert.message(msg)
   obj_alert.show()
+  inicializa_comprobante()
 
 })
 
+
+//DESCARGAR COMPROBANTE
 document.body.addEventListener("click", async (event) => {
   if (event.target && event.target.id === "get-bill") {
     obj_spinner.show()
+    location.hash = "/comprobantes"
     await apiservice.getBill(225)
     obj_spinner.hide()
+    obj_alert.hide()
   }
 });
+
+
+//Incializa Comprobante
+document.getElementById("reset-comprobante").addEventListener("click", () => {
+  resetComprobantes()
+})
+
+function resetComprobantes() {
+  inicializa_comprobante()
+  $("#btnNuevoItem").prop("disabled", true);
+}
+
+function inicializaFechas() {
+  let hoy = new Date().toISOString().split('T')[0]
+  document.getElementById("date-vto").value = hoy
+  document.getElementById("date-from").value = hoy
+  document.getElementById("date-to").value = hoy
+}
+
+function eraseDatatable() {
+  table.clear().draw()
+  $("#btnNuevoItem").prop("disabled", false);
+}
+
+
+function inicializa_comprobante() {
+
+  document.getElementById("searchInput").value = ""
+  inicializaFechas()
+  resetDatosCliente()
+  eraseDatatable()
+  bloquear_comprobantes()
+
+}
+
+function bloquear_comprobantes() {
+  $("#accordionFlushExample .accordion-button,  #select-comprobantes").addClass("disabled");
+  $("#facturaItems input, #facturaItems select, #facturaItems button, #select-comprobantes").prop("disabled", true);
+  document.getElementById("dropdownButton").innerHTML =
+    `<svg class="bi"><use xlink:href="#file-earmark" /></svg> <span>Factura</span>`;
+}
+
+function desbloquear_comprobantes() {
+  $("#accordionFlushExample .accordion-button").removeClass("disabled");
+  $("#facturaItems input, #facturaItems select, #facturaItems button").prop("disabled", false);
+  $("#accordionFlushExample .accordion-button,  #select-comprobantes").removeClass("disabled");
+  document.getElementById("dropdownButton").innerHTML =
+    `<svg class="bi"><use xlink:href="#file-earmark" /></svg> <span>Factura</span>`;
+  $("#btnNuevoItem").prop("disabled", false);
+}
+
+//Salir Facturacion
+document.getElementById("btn-salir-facturacion").addEventListener("click", () => {
+  resetComprobantes()
+  location.hash = "/comprobantes"
+})
