@@ -39,37 +39,6 @@ bloquear_comprobantes()
 let productos = await apiservice.getAllProductos()
 let array_productos = await productos.getBody()
 
-const selectElement = document.getElementById("select-producto"); // Asegúrate de que existe este <select> en tu HTML
-
-// Limpiar opciones anteriores (si las hubiera)
-selectElement.innerHTML = "";
-
-// Agregar opción por defecto (opcional)
-let defaultOption = document.createElement("option");
-defaultOption.text = "Seleccione un producto";
-defaultOption.value = "";
-selectElement.appendChild(defaultOption);
-
-// Recorrer array y agregar opciones
-array_productos.forEach(producto => {
-  let option = document.createElement("option");
-  option.setAttribute("data-id", producto.product_id); // Establece el atributo data-id correctamente
-  option.setAttribute("data-precio", producto.price); // Establece el atributo data-precio correctamente
-  option.text = producto.name; // Usa el nombre del producto
-  selectElement.appendChild(option);
-});
-// // Fin carga productos
-
-// document.getElementById("select-producto").addEventListener("change", function() {
-//   let selectedOption = selectElement.options[selectElement.selectedIndex];
-//   let productId = selectedOption.getAttribute("data-id");
-//   let productPrice = selectedOption.getAttribute("data-precio");
-
-//   console.log("ID del producto:", productId);
-//   console.log("Precio del producto:", productPrice);
-// });
-
-
 // Tipo Comprobante
 const dropdownButton = document.getElementById('dropdownButton');
 const dropdownItems = document.querySelectorAll('.dropdown-item');
@@ -240,8 +209,6 @@ $(document).ready(function () {
     let fila = $(this).closest("tr");
     let precioBase = $(this).find("option:selected").data("precio") || 0;
     fila.find(".precio").val(precioBase).trigger("input"); // Disparar evento de input para recalcular
-    let productoID = $(this).find("option:selected").data("data-id");
-    alert(productoID)
   });
 
   // Evento para agregar una nueva fila
@@ -266,21 +233,6 @@ $(document).ready(function () {
       '<div class="total" style="text-align: right;">0.00</div>',
       '<button class="btn btn-delete">🗑</button>'
     ]).draw(false);
-
-    //Prueba
-  //   $(document).on('change', '.producto', function() {
-  //     let selectedOption = $(this).find(':selected'); 
-  //     let productId = selectedOption.data('id'); 
-  //     let price = selectedOption.data('precio');
-  
-  //     console.log("Producto ID:", productId);
-  //     console.log("Precio:", price);
-  
-  //     // Opcional: establecer el precio automáticamente en el input correspondiente
-  //     let row = $(this).closest('tr');
-  //     row.find('.precio').val(price);
-  // });
-  
 
     // Deshabilitar el botón hasta que la nueva fila tenga datos
     $("#btnNuevoItem").prop("disabled", true);
@@ -336,56 +288,32 @@ document.getElementById("date-to").addEventListener("change", function() {
   document_body.setDateTo(fecha.replace(/-/g, "")); // Remueve los guiones
 })
 
-// Construye items en el body
-// function construir_items() {
-//   $("#facturaItems tbody tr").each(function () {
-//       let fila = $(this);
-//       let select = fila.find("select.producto");
+//Construye items en el body
+function construir_items() {
+  $("#facturaItems tbody tr").each(function () {
+      let fila = $(this);
+      let select = fila.find("select.producto");
 
-//       console.log(select)
-//       if (select.length === 0) {
-//           console.error("No se encontró el select en la fila:", fila);
-//           return;
-//       }
+      if (select.length === 0) {
+          console.error("No se encontró el select en la fila:", fila);
+          return;
+      }
 
-//       // Obtener el valor del atributo "value" de la opción seleccionada
-//       let productId = select.find("option:selected").attr("data-id");
-//       let quantity = parseFloat(fila.find("input.cantidad").val()) || 0;
-//       let unitPrice = parseFloat(fila.find("input.precio").val()) || 0;
-//       let discount = parseFloat(fila.find("input.descuento").val()) || 0;
+      let productId = select.find("option:selected").attr("data-id");
+      let quantity = parseFloat(fila.find("input.cantidad").val()) || 0;
+      let unitPrice = parseFloat(fila.find("input.precio").val()) || 0;
+      let discount = parseFloat(fila.find("input.descuento").val()) || 0;
+      document_body.addItem(productId, quantity, unitPrice, discount);
 
-//   });
-// }
+  });
+}
 
 document.getElementById("emitir-documento").addEventListener("click", async () => {
   obj_spinner.show()
   construir_items()
-  // document_body.addItem(11, 11, 1.0, "IVA 21%", 1000.0);
-  console.log(document_body.data)
 
-  // let document_body = {
-  //   "client_id": 15,
-  //   "document_type": "FACTURAC",
-  //   "date": "20250131",
-  //   "date_serv_from": "20250131",
-  //   "date_serv_to": "20250131",
-  //   "expiration_date": "20250131",
-  //   "currency": "PESOS",
-  //   "exchange_rate": 1.0,
-  //   "CondicionIVAReceptorId": 6,
-  //   "items": [
-  //     {
-  //       "document_id": 11,
-  //       "product_id": 11,
-  //       "quantity": 1.0,
-  //       "tax_rate": "IVA 21%",
-  //       "unit_price": 1000.0
-  //     }
-  //   ]
-  // }
-
-  // let response = await apiservice.postDocument(document_body)
-  // let body = response.getBody()
+  let response = await apiservice.postDocument(document_body.getDocument())
+  let body = response.getBody()
   obj_spinner.hide()
   let msg = `
        Factura emitida con exito <a id="get-bill" class="alert-link" style="cursor: pointer">C 00100-00000002</a>. 

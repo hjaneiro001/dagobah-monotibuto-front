@@ -1,43 +1,49 @@
 export class DocumentBody {
     constructor() {
-        this.data = {
-            client_id: null,
-            document_type: "FACTURAC",
-            date: new Date().toISOString().split('T')[0],
-            date_serv_from: new Date().toISOString().split('T')[0],
-            date_serv_to: new Date().toISOString().split('T')[0],
-            expiration_date: new Date().toISOString().split('T')[0],
-            exchange_rate: 1.0,
-            items: []
-        };
+        this.client_id = null;
+        this.document_type = "FACTURAC";
+        this.date = this.getFormattedDate()
+        this.date_serv_from = this.getFormattedDate()
+        this.date_serv_to = this.getFormattedDate()
+        this.expiration_date = this.getFormattedDate()
+        this.items = [];
     }
 
+
+    getFormattedDate(date = new Date()) {
+        const year = date.getFullYear();
+        const month = String(date.getMonth() + 1).padStart(2, '0');
+        const day = String(date.getDate()).padStart(2, '0');
+        return `${year}${month}${day}`;
+    }
+
+
     setClientId(clientId) {
-        this.data.client_id = clientId;
+        this.client_id = clientId;
     }
 
     setDocumentType(type) {
-        this.data.document_type = type;
+        this.document_type = type;
     }
 
     setDate(date) {
-        this.data.date = date;
+        this.date = date;
     }
 
     setDateExpiration(expiration) {
-        this.data.expiration_date = expiration;
+        this.expiration_date = expiration;
     }
 
     setDateFrom(from) {
-        this.data.date_serv_from = from;
+        this.date_serv_from = from;
     }
 
     setDateTo(to) {  
-        this.data.date_serv_to = to;
+        this.date_serv_to = to;
     }
 
     addItem(productId, quantity, unitPrice, discount) {
-        this.data.items.push({
+        this.items.push({
             product_id: productId,
             quantity: quantity,
             unit_price: unitPrice,
@@ -46,6 +52,6 @@ export class DocumentBody {
     }
 
     getDocument() {
-        return this.data;
+        return { ...this };
     }
 }

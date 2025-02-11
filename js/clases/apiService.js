@@ -75,7 +75,7 @@ export class ApiService {
         };
 
       } catch (error) {
-        console.error("Error fetching productss:", error);
+        console.error("Error fetching products:", error);
         return {
           getStatus: () => null, 
           getBody: () => { return { error: error.message }; }
