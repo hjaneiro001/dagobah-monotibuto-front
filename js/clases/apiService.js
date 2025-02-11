@@ -47,17 +47,23 @@ export class ApiService {
 
     async getCliente(id){
 
-      let response = await fetch("http://localhost:5000/clients/"+id);
-      let data = await response.json();
-
-      return {
-        getStatus: () => response.status, 
-        getBody: () => data             
-      };
-
+      try{
+        let response = await fetch("http://localhost:5000/clients/"+id);
+        let data = await response.json();
+  
+        return {
+          getStatus: () => response.status, 
+          getBody: () => data             
+        };
+      }catch{
+        console.error("Error fetching products:", error);
+        return {
+          getStatus: () => null, 
+          getBody: () => { return { error: error.message }; }
+        };
+      }
     }
 
-    
     //PRODUCTOS
     async getAllProductos(){
       try {
@@ -86,21 +92,30 @@ export class ApiService {
 
     //Documentos
     async postDocument(document) {
+
+      try{
+        let response = await fetch(this.url + "documents/", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(document),
+        });
       
-      let response = await fetch(this.url + "documents/", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(document),
-      });
-    
-      let data = await response.json();
-    
-      return {
-        getStatus: () => response.status,
-        getBody: () => data,
-      };
+        let data = await response.json();
+      
+        return {
+          getStatus: () => response.status,
+          getBody: () => data,
+        };
+
+      }catch(error){
+        console.error("Error fetching products:", error);
+        return {
+          getStatus: () => null, 
+          getBody: () => { return { error: error.message }; }
+        };
+      }
     }
 
     async  getBill(id) {

@@ -368,7 +368,6 @@ function inicializa_comprobante() {
   resetDatosCliente()
   eraseDatatable()
   bloquear_comprobantes()
-
 }
 
 function bloquear_comprobantes() {
