@@ -75,9 +75,7 @@ async function mostrarOcultar() {
     }
     break;
 
-
   }
-
 
 }
 

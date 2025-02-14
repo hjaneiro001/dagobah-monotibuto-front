@@ -13,7 +13,7 @@ import {
 
 import {
   DocumentBody
-} from "../clases/document_body.js"
+} from "../clases/bodys/document_body.js"
 
 
 const apiservice = new ApiService()
@@ -55,7 +55,6 @@ dropdownItems.forEach(item => {
 
 
 // Dropdown Cliente
-
 let getAllClientes = await apiservice.getAllClientes()
 const options = await getAllClientes.getBody()
 
@@ -100,7 +99,6 @@ dropdownList.addEventListener("click", async (event) => {
 
     const nombre = name.split(" (")[0];
     input.value = name.split(" (")[0].trimStart();
-
 
     let datos_cliente = await BuscarCliente(clientId)
     cargar_encabezado(datos_cliente.getBody())
@@ -241,7 +239,6 @@ $(document).ready(function () {
   // Evento para eliminar una fila
   $(document).on("click", ".btn-delete", function () {
     table.row($(this).closest("tr")).remove().draw(false);
-    // $("#btnNuevoItem").prop("disabled", !ultimaFilaCompleta());
     $("#btnNuevoItem").prop("disabled", false);
     calcularTotalFactura()
   });
@@ -260,70 +257,117 @@ $(document).ready(function () {
     calcularTotalFactura();
   });
 
-  function calcularTotalFactura() {
-    let totalFactura = 0;
-
-    $("#facturaItems tbody tr").each(function () {
-      let totalItem = parseFloat($(this).find(".total").text()) || 0;
-      totalFactura += totalItem;
-    });
-
-    $("#totalFactura").text(totalFactura.toFixed(2));
-  }
-
+ 
 });
 
+function calcularTotalFactura() {
+  let totalFactura = 0;
+
+  $("#facturaItems tbody tr").each(function () {
+    let totalItem = parseFloat($(this).find(".total").text()) || 0;
+    totalFactura += totalItem;
+  });
+
+  $("#totalFactura").text(totalFactura.toFixed(2));
+}
+
 document.getElementById("date-vto").addEventListener("change", function() {
-    let fecha = this.value; // Formato YYYY-MM-DD
-    document_body.setDateExpiration(fecha.replace(/-/g, "")); // Remueve los guiones
+    let fecha = this.value; 
+    document_body.setDateExpiration(fecha.replace(/-/g, "")); 
 })
 
 document.getElementById("date-from").addEventListener("change", function() {
-  let fecha = this.value; // Formato YYYY-MM-DD
-  document_body.setDateFrom(fecha.replace(/-/g, "")); // Remueve los guiones
+  let fecha = this.value; 
+  document_body.setDateFrom(fecha.replace(/-/g, "")); 
 })
 
 document.getElementById("date-to").addEventListener("change", function() {
-  let fecha = this.value; // Formato YYYY-MM-DD
-  document_body.setDateTo(fecha.replace(/-/g, "")); // Remueve los guiones
+  let fecha = this.value; 
+  document_body.setDateTo(fecha.replace(/-/g, "")); 
 })
 
-//Construye items en el body
-function construir_items() {
-  $("#facturaItems tbody tr").each(function () {
-      let fila = $(this);
-      let select = fila.find("select.producto");
-
-      if (select.length === 0) {
-          console.error("No se encontró el select en la fila:", fila);
-          return;
-      }
-
-      let productId = select.find("option:selected").attr("data-id");
-      let quantity = parseFloat(fila.find("input.cantidad").val()) || 0;
-      let unitPrice = parseFloat(fila.find("input.precio").val()) || 0;
-      let discount = parseFloat(fila.find("input.descuento").val()) || 0;
-      document_body.addItem(productId, quantity, unitPrice, discount);
-
-  });
-}
 
 document.getElementById("emitir-documento").addEventListener("click", async () => {
+
   obj_spinner.show()
-  construir_items()
 
-  let response = await apiservice.postDocument(document_body.getDocument())
-  let body = response.getBody()
-  obj_spinner.hide()
-  let msg = `
-       Factura emitida con exito <a id="get-bill" class="alert-link" style="cursor: pointer">C 00100-00000002</a>. 
-       click para descargar
-       `
-  obj_alert.message(msg)
-  obj_alert.show()
-  inicializa_comprobante()
+  try{
+    construir_items()
+    validateDocument(document_body.getDocument()); 
+    let response = await apiservice.postDocument(document_body.getDocument())
 
+    let msg = `
+         Factura emitida con exito <a id="get-bill" class="alert-link" style="cursor: pointer">C 00100-00000002</a>. 
+         click para descargar
+         `
+    obj_spinner.hide()
+    obj_alert.show(msg,salirFacturacion)
+    inicializa_comprobante()
+  
+  }
+  catch(error){
+    obj_alert.show(error.message,cierraAlerta)
+    obj_spinner.hide()
+  }
+  
 })
+
+function construir_items() {
+  let hasError = false; // Bandera para detectar errores
+
+  $("#facturaItems tbody tr").each(function () {
+    let fila = $(this);
+    let select = fila.find("select.producto");
+
+    if (select.length == 0) {
+      return;
+    }
+
+    let productId = select.find("option:selected").attr("data-id");
+    let quantity = parseFloat(fila.find("input.cantidad").val()) || 0;
+    let unitPrice = parseFloat(fila.find("input.precio").val()) || 0;
+    let discount = parseFloat(fila.find("input.descuento").val()) || 0;
+
+    if (productId > 0 && quantity > 0 && unitPrice > 0) {
+      document_body.addItem(productId, quantity, unitPrice, discount);
+    } else {
+      hasError = true;
+    }
+  });
+
+  if (hasError) {
+    obj_alert.show("Error en los items de la factura. Corrige los datos antes de continuar.", cierraAlerta);
+    throw new Error("Error en los items de la factura.");
+  }
+}
+
+function validateDocument(document) {
+
+  if (!document.client_id ||  document.client_id == 0) {
+      throw new Error("El numero de cliente esta mal ingresado " + document.client_id);
+  }
+
+  if (!["FACTURAC"].includes(document.document_type)) {
+      throw new Error("El tipo de documento es invalido");
+  }
+
+  const dateFields = ["date", "date_serv_from", "date_serv_to", "expiration_date"];
+  for (const field of dateFields) {
+      if (!/^\d{8}$/.test(document[field])) {
+          throw new Error(`${field} debe estar en formato YYYYMMDD`);
+      }
+  }
+
+//  Comparar directamente
+  if (document.expiration_date < document.date) {
+     throw new Error("expiration_date no puede ser menor que date.");
+  }
+
+  if (!Array.isArray(document.items) || document.items.length === 0) {
+      throw new Error("Debe haber al menos un item en la factura");
+  }
+
+}
 
 
 //DESCARGAR COMPROBANTE
@@ -331,7 +375,7 @@ document.body.addEventListener("click", async (event) => {
   if (event.target && event.target.id === "get-bill") {
     obj_spinner.show()
     location.hash = "/comprobantes"
-    await apiservice.getBill(225)
+    await apiservice.getBill(333)
     obj_spinner.hide()
     obj_alert.hide()
   }
@@ -367,7 +411,10 @@ function inicializa_comprobante() {
   inicializaFechas()
   resetDatosCliente()
   eraseDatatable()
+  calcularTotalFactura()
   bloquear_comprobantes()
+  document_body.reset()
+
 }
 
 function bloquear_comprobantes() {
@@ -375,6 +422,7 @@ function bloquear_comprobantes() {
   $("#facturaItems input, #facturaItems select, #facturaItems button, #select-comprobantes").prop("disabled", true);
   document.getElementById("dropdownButton").innerHTML =
     `<svg class="bi"><use xlink:href="#file-earmark" /></svg> <span>Factura</span>`;
+  
 }
 
 function desbloquear_comprobantes() {
@@ -388,6 +436,16 @@ function desbloquear_comprobantes() {
 
 //Salir Facturacion
 document.getElementById("btn-salir-facturacion").addEventListener("click", () => {
-  resetComprobantes()
-  location.hash = "/comprobantes"
+  salirFacturacion()
 })
+
+// Cierra slo alerta alerta 
+function cierraAlerta(){
+  obj_alert.hide()
+}
+
+function salirFacturacion(){
+  inicializa_comprobante()
+  obj_alert.hide()
+  location.hash = "/comprobantes"
+}

@@ -97,6 +97,16 @@
       display: block !important;
     }
 
+    .overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.5); /* Fondo semi-transparente */
+    z-index: 999; /* Asegura que quede sobre todo */
+}
+
     .alert {
       position: fixed;
       bottom: 0;
@@ -459,11 +469,13 @@
       </main>
     </div>
   </div>
+  
+  <div id="overlay" class="overlay d-none"></div>
 
-  <div id="alert" class="alert alert-success alert-dismissible fade show d-none" role="alert">
+  <div id="alert" class="alert alert-success  alert-box fade show d-none" role="alert">
     <div id="alert-msg">
     </div>
-    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+    <button id="btn-close-alert" type="button" class="btn-close"  aria-label="Close"></button>
   </div>
 
 </body>
@@ -476,7 +488,7 @@
 <!-- JS de DataTables -->
 <script src="https://cdn.datatables.net/1.13.6/js/jquery.dataTables.min.js"></script>
 
-<script src="./js/sources/app-common.js" type="module"></script>
+<script src="./js/sources/app-spa.js" type="module"></script>
 
 
 </html>

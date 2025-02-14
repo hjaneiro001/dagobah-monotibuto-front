@@ -1,5 +1,10 @@
 export class DocumentBody {
-    constructor() {
+
+    constructor(){
+       this.reset()
+    }
+    
+    reset() {
         this.client_id = null;
         this.document_type = "FACTURAC";
         this.date = this.getFormattedDate()
@@ -8,7 +13,6 @@ export class DocumentBody {
         this.expiration_date = this.getFormattedDate()
         this.items = [];
     }
-
 
     getFormattedDate(date = new Date()) {
         const year = date.getFullYear();

@@ -1,21 +1,43 @@
-export class Alert{
-
+export class Alert {
     constructor() {
-
+        this.callback = null; 
+        this.init();
     }
 
-    show(){
-        document.getElementById("alert").classList.remove("d-none")
+    init() {
+        const closeButton = document.getElementById("btn-close-alert");
+        if (closeButton) {
+            closeButton.addEventListener("click", () => {
+                this.hide();
+                if (this.callback) {
+                    this.callback(); // Ejecuta la función asignada
+                }
+            });
+        }
     }
 
-    hide(){
-        document.getElementById("alert").classList.add("d-none")
+    show(msg, callback = null) {
+        let alertElement = document.getElementById("alert");
+        let overlayElement = document.getElementById("overlay");
+        let msgElement = document.getElementById("alert-msg");
+
+        if (msgElement) {
+            msgElement.innerHTML = msg;
+        }
+
+        alertElement.classList.remove("d-none");
+        overlayElement.classList.remove("d-none");
+
+        this.callback = callback;
     }
 
-    message(msg){
-        document.getElementById("alert-msg").innerHTML = msg
-    }
+    hide() {
+        const alertElement = document.getElementById("alert");
+        const overlayElement = document.getElementById("overlay");
 
+        alertElement.classList.add("d-none");
+        overlayElement.classList.add("d-none");
+
+        this.callback = null; // Limpia la función de cierre
+    }
 }
-
-  
