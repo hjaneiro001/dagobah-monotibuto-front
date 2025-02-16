@@ -295,11 +295,18 @@ document.getElementById("emitir-documento").addEventListener("click", async () =
     construir_items()
     validateDocument(document_body.getDocument()); 
     let response = await apiservice.postDocument(document_body.getDocument())
+    if(response.getStatus() >= 400){
+      obj_alert("Hubo un error en la emision del documento, intentelo mas tarde",salirFacturacion)
+    }
+    
+    let body = response.getBody()
 
     let msg = `
-         Factura emitida con exito <a id="get-bill" class="alert-link" style="cursor: pointer">C 00100-00000002</a>. 
-         click para descargar
-         `
+    Factura emitida con éxito <a id="get-bill" value=${body.document_id} class="alert-link" style="cursor: pointer">
+    ${body.document_type} ${body.pos}-${body.number}
+    </a>. Click para descargar.
+  `;
+ 
     obj_spinner.hide()
     obj_alert.show(msg,salirFacturacion)
     inicializa_comprobante()
@@ -373,11 +380,19 @@ function validateDocument(document) {
 //DESCARGAR COMPROBANTE
 document.body.addEventListener("click", async (event) => {
   if (event.target && event.target.id === "get-bill") {
-    obj_spinner.show()
-    location.hash = "/comprobantes"
-    await apiservice.getBill(333)
-    obj_spinner.hide()
-    obj_alert.hide()
+
+    let documentId = event.target.getAttribute("value");
+
+    if (documentId) {
+      obj_spinner.show()
+      location.hash = "/comprobantes"
+      await apiservice.getBill(documentId)
+      obj_spinner.hide()
+      obj_alert.hide()
+    } else {
+      obj_alert("No se puede descargar el documento",salirFacturacion);
+    }
+  
   }
 });
 
@@ -446,6 +461,5 @@ function cierraAlerta(){
 
 function salirFacturacion(){
   inicializa_comprobante()
-  obj_alert.hide()
   location.hash = "/comprobantes"
 }

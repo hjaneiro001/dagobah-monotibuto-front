@@ -34,10 +34,14 @@ export class Alert {
     hide() {
         const alertElement = document.getElementById("alert");
         const overlayElement = document.getElementById("overlay");
-
+    
+        if (this.callback) {
+            this.callback();  // Ejecuta la función antes de ocultar la alerta
+            this.callback = null; // Limpia después de ejecutarla
+        }
+    
         alertElement.classList.add("d-none");
         overlayElement.classList.add("d-none");
-
-        this.callback = null; // Limpia la función de cierre
     }
+    
 }
