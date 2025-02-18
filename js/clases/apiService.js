@@ -139,7 +139,30 @@ export class ApiService {
       // Liberar la URL creada después de un tiempo para evitar desperdicio de memoria
       setTimeout(() => window.URL.revokeObjectURL(url), 5000);
   }
+
+  async getAllDocuments(){
+    try {
+      let response = await fetch(this.url + "documents/");
+      if (!response.ok) {
+        throw new Error(`HTTP error! Status: ${response.status}`);
+      }
   
-   
+      let data = await response.json();
+  
+      return {
+        getStatus: () => response.status,
+        getBody: () => data             
+      };
+
+    } catch (error) {
+      console.error("Error fetching products:", error);
+      return {
+        getStatus: () => null, 
+        getBody: () => { return { error: error.message }; }
+      };
+    }
+
+  }
+  
 }
 

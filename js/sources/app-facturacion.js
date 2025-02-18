@@ -27,9 +27,6 @@ let obj_spinner = new Spinner
 // Crea Alert
 let obj_alert = new Alert
 
-// Var del Datatable
-var table;
-
 //Inicializa comprobantes
 inicializaFechas()
 bloquear_comprobantes()
@@ -165,9 +162,12 @@ function hideMoreOptions() {
 }
 
 
+// Var del Datatable
+let tabla;
+
 //DATATABLE
 $(document).ready(function () {
-  table = $('#facturaItems').DataTable({
+  tabla = $('#facturaItems').DataTable({
     paging: false,
     searching: false,
     ordering: false,
@@ -223,7 +223,7 @@ $(document).ready(function () {
 
     selectHTML += `</select>`;
 
-    table.row.add([
+    tabla.row.add([
       selectHTML,
       '<input type="number" class="cantidad" min="0.0001">',
       '<input type="number" class="precio" min="0">',
@@ -238,7 +238,7 @@ $(document).ready(function () {
 
   // Evento para eliminar una fila
   $(document).on("click", ".btn-delete", function () {
-    table.row($(this).closest("tr")).remove().draw(false);
+    tabla.row($(this).closest("tr")).remove().draw(false);
     $("#btnNuevoItem").prop("disabled", false);
     calcularTotalFactura()
   });
@@ -300,7 +300,7 @@ document.getElementById("emitir-documento").addEventListener("click", async () =
     }
     
     let body = response.getBody()
-
+    console.log(body)
     let msg = `
     Factura emitida con éxito <a id="get-bill" value=${body.document_id} class="alert-link" style="cursor: pointer">
     ${body.document_type} ${body.pos}-${body.number}
@@ -351,7 +351,7 @@ function construir_items() {
 function validateDocument(document) {
 
   if (!document.client_id ||  document.client_id == 0) {
-      throw new Error("El numero de cliente esta mal ingresado " + document.client_id);
+      throw new Error("Debe ingresar un cliente valido");
   }
 
   if (!["FACTURAC"].includes(document.document_type)) {
@@ -389,13 +389,13 @@ document.body.addEventListener("click", async (event) => {
       await apiservice.getBill(documentId)
       obj_spinner.hide()
       obj_alert.hide()
+      window.location.reload()
     } else {
       obj_alert("No se puede descargar el documento",salirFacturacion);
     }
   
   }
 });
-
 
 //Incializa Comprobante
 document.getElementById("reset-comprobante").addEventListener("click", () => {
@@ -415,7 +415,7 @@ function inicializaFechas() {
 }
 
 function eraseDatatable() {
-  table.clear().draw()
+  tabla.clear().draw()
   $("#btnNuevoItem").prop("disabled", false);
 }
 
@@ -462,4 +462,5 @@ function cierraAlerta(){
 function salirFacturacion(){
   inicializa_comprobante()
   location.hash = "/comprobantes"
+  window.location.reload()
 }

@@ -47,15 +47,14 @@ async function mostrarOcultar() {
       }
       break;
 
-
     case "#/comprobantes":
 
-    ctnComprobantes.classList.remove("d-none")
-    if (ctnComprobantes.getAttribute("inicio") == "false") {
-      $("#comprobantes-section").html(await plantilla.getComprobantes())
-      ctnComprobantes.setAttribute("inicio", "true")
-    }
-    break;
+      ctnComprobantes.classList.remove("d-none")
+      if (ctnComprobantes.getAttribute("inicio") == "false") {
+        $("#comprobantes-section").html(await plantilla.getComprobantes())
+        ctnComprobantes.setAttribute("inicio", "true")
+      }
+      break;
 
     case "#/clientes":
 
@@ -68,12 +67,12 @@ async function mostrarOcultar() {
 
     case "#/productos":
 
-    ctnProductos.classList.remove("d-none")
-    if (ctnProductos.getAttribute("inicio") == "false") {
-      $("#productos-section").html(await plantilla.getProductos())
-      ctnProductos.setAttribute("inicio", "true")
-    }
-    break;
+      ctnProductos.classList.remove("d-none")
+      if (ctnProductos.getAttribute("inicio") == "false") {
+        $("#productos-section").html(await plantilla.getProductos())
+        ctnProductos.setAttribute("inicio", "true")
+      }
+      break;
 
   }
 

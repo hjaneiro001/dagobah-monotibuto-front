@@ -9,9 +9,6 @@ export class Alert {
         if (closeButton) {
             closeButton.addEventListener("click", () => {
                 this.hide();
-                if (this.callback) {
-                    this.callback(); // Ejecuta la función asignada
-                }
             });
         }
     }
@@ -34,14 +31,15 @@ export class Alert {
     hide() {
         const alertElement = document.getElementById("alert");
         const overlayElement = document.getElementById("overlay");
-    
+
+        // Asegurarse de que callback se ejecute solo una vez
         if (this.callback) {
-            this.callback();  // Ejecuta la función antes de ocultar la alerta
-            this.callback = null; // Limpia después de ejecutarla
+            const tempCallback = this.callback; 
+            this.callback = null; // Evita llamadas repetidas
+            tempCallback(); // Ejecuta la función después de resetearla
         }
-    
+
         alertElement.classList.add("d-none");
         overlayElement.classList.add("d-none");
     }
-    
 }
