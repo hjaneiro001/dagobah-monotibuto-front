@@ -300,7 +300,6 @@ document.getElementById("emitir-documento").addEventListener("click", async () =
     }
     
     let body = response.getBody()
-    console.log(body)
     let msg = `
     Factura emitida con éxito <a id="get-bill" value=${body.document_id} class="alert-link" style="cursor: pointer">
     ${body.document_type} ${body.pos}-${body.number}

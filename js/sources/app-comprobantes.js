@@ -8,10 +8,6 @@ import{
 
 let apiservice = new ApiService
 
-document.addEventListener("actualizarComprobantes", () => {
-    window.location.reload()
-  });
-  
 // Va a Facturacion
 document.getElementById("btn-new-comp").addEventListener("click", ()=>{
     location.hash = "/facturacion"

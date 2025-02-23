@@ -1,12 +1,160 @@
-
-<div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom" id="home-section">
-    <h1 class="h2">Productos</h1>
-    <div class="btn-toolbar mb-2 mb-md-0">
-        <div class="btn-group me-2">
-          <button type="button" class="btn btn-sm btn-outline-secondary">Alta</button>
-          <button type="button" class="btn btn-sm btn-outline-secondary">Listado</button>
-        </div>
-      </div>
+<div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom"
+  id="home-section">
+  <h1 class="h2">Productos</h1>
+  <div class="btn-toolbar mb-2 mb-md-0">
+    <div class="btn-group me-2">
+      <button id="btn-alta-producto" type="button" class="btn btn-sm btn-outline-secondary" data-bs-toggle="modal"
+        data-bs-target="#product-modal">Alta</button>
+      <button type="button" class="btn btn-sm btn-outline-secondary">Listado</button>
+    </div>
+  </div>
 </div>
 
 
+<table id="products-table" class="display">
+  <thead>
+    <tr>
+      <th></th>
+      <th>Codigo</th>
+      <th>Nombre</th>
+      <th class="text-center">Precio</th>
+      <th class="text-center">Iva</th>
+      <th class="text-center">Tipo</th>
+      <th>Accion</th>
+    </tr>
+  </thead>
+  <tbody>
+  </tbody>
+</table>
+
+<!-- MODAL ALTA EDICION PRODUCTOS -->
+
+<!-- Modal -->
+<div class="modal fade" id="product-modal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
+  aria-labelledby="staticBackdropLabel" aria-hidden="true">
+  <div class="modal-dialog modal-xl">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h1 class="modal-title fs-5" id="staticBackdropLabel">Alta Productos</h1>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+
+      <div class="modal-body">
+        <div class="container">
+          <form id="product-form" class="row g-3 needs-validation" novalidate>
+
+            <!-- Nombre -->
+            <div class="form-floating col-6">
+              <input type="text" class="form-control" id="nombre-prod" placeholder="Nombre" required>
+              <label class="ms-1" for="nombre-prod">Producto</label>
+              <div class="invalid-feedback">Por favor, ingrese producto.</div>
+            </div>
+
+            <!-- descripcion -->
+            <div class="form-floating col-6">
+              <input type="text" class="form-control" id="descripcion-prod" placeholder="Email" required>
+              <label class="ms-1" for="descripcion-prod">Descripcion</label>
+              <div class="invalid-feedback">Ingrese una descripcion.</div>
+            </div>
+
+            <!-- Codigo -->
+            <div class="form-floating col-4">
+              <input type="text" class="form-control" id="codigo-prod" placeholder="Codigo" required>
+              <label class="ms-1" for="codigo-prod">Codigo</label>
+              <div class="invalid-feedback">Ingrese un codigo.</div>
+            </div>
+
+            <!-- Bar Code -->
+            <div class="form-floating col-5">
+              <input type="text" class="form-control" id="codigo-barras-prod" placeholder="Codigo de Barras" required>
+              <label class="ms-1" for="codigo-barras-prod">Codigo de Barras</label>
+              <div class="invalid-feedback">Ingrese un codigo de barras.</div>
+            </div>
+
+              <!-- Select (Tipo) -->
+              <div class="form-floating col-3">
+                <select class="form-select" id="tipo-prod" required>
+                  <option value="" selected disabled>Seleccione un tipo de producto</option>
+                  <option value="1">PRODUCTO</option>
+                  <option value="2">SERVICIO</option>
+                  <option value="2">PRODUCTO y SERVICIO</SEarch></option>
+                </select>
+                <label for="tipo-prod" class="ms-1">Tipo</label>
+                <div class="invalid-feedback">Por favor, seleccione una tipo.</div>
+              </div>
+
+            <hr class="mb-0">
+
+            <div class="form-floating col-3">
+              <input class="form-control text-end" id="precio-prod" type="number" step="0.01" placeholder="Precio del producto"
+                required>
+              <label for="precio-prod" class="ms-1">Precio</label>
+              <div class="invalid-feedback">Ingrese un vaor para el producto.</div>
+            </div>
+
+            <!-- Select (Moneda) -->
+            <div class="form-floating col-3">
+              <select class="form-select" id="moneda-prod" required>
+                <option value="" selected disabled>Seleccione una moneda</option>
+                <option value="1">PESOS</option>
+                <option value="2">DOLARES</option>
+              </select>
+              <label for="moneda-prod">Moneda</label>
+              <div class="invalid-feedback">Por favor, seleccione una moneda.</div>
+            </div>
+
+            <!-- Select (iva) -->
+            <div class="form-floating col-3">
+              <select class="form-select" id="iva-prod" required>
+                <option value="" selected disabled>Seleccione un iva</option>
+                <option value="1">IVA 21%</option>
+                <option value="2">IVA 27%</option>
+                <option value="2">Iva 10.5%</option>
+                <option value="2">Iva 5%</option>
+                <option value="2">Iva 2.5%</option>
+                <option value="2">IVA EXENTO</option>
+                <option value="2">IVA NO GRAVADO</option>
+              </select>
+              <label for="iva-prod">Iva</label>
+              <div class="invalid-feedback">Por favor, seleccione una iva.</div>
+            </div>
+
+            <div class="form-floating col-3">
+              <input class="form-control " id="packing-prod" type="number" step="0.01" placeholder="Precio del producto">
+              <label for="packing-prod" class="ms-1">Packing</label>
+            </div>
+
+            <hr>
+
+            <div class="col-12 text-end">
+              <button class="btn btn-secondary" data-bs-dismiss="modal" type="button">Salir</button>
+              <button class="btn btn-primary" type="submit">Aceptar</button>
+            </div>
+
+          </form>
+        </div>
+
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+  (() => {
+    'use strict';
+
+    // Obtener el formulario
+    const form = document.getElementById('product-form');
+
+    form.addEventListener('submit', (event) => {
+      if (!form.checkValidity()) {
+        event.preventDefault();
+        event.stopPropagation();
+      }
+      form.classList.add('was-validated');
+    }, false);
+  })();
+
+</script>
+
+<script src="../js/sources/app.productos.js" type="module"></script>
