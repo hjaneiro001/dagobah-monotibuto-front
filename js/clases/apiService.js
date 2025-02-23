@@ -269,15 +269,14 @@ export class ApiService {
   }
 
 
-  async postProduct(product) {
+  async deleteProduct(id,product) {
 
     try {
-      let response = await fetch(this.url + "products/", {
-        method: "POST",
+      let response = await fetch(this.url + "products/"+id, {
+        method: "DELETE",
         headers: {
           "Content-Type": "application/json",
         },
-        body: JSON.stringify(product),
       });
 
       let data = await response.json();

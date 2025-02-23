@@ -99,7 +99,6 @@ $(document).ready(function () {
             width: '15%',
             render: (data, type, row, meta) => {
                 return `<div><p class="mb-0 text-end">${row.currency['denomination']} ${row.price}</p></div>`;
-                // return `<div><p class="mb-0 text-end"> ${row.price}</p></div>`;
             }
         },
         {
@@ -122,7 +121,8 @@ $(document).ready(function () {
             data: null,
             render: function (data, type, row, meta) {
                 return `
-                    <button class="btn btn-outline-secondary me-2 boton-delete-pr">
+                    <button class="btn btn-outline-secondary me-2 boton-delete-pr"
+                    data-bs-toggle="modal" data-bs-target="#deleteProductModal" data-id="${row.product_id}">
                         <i class="bi bi-trash"></i>
                     </button>
                     <button class="btn btn-outline-secondary mr-2 boton-editar-pr" 
@@ -256,7 +256,7 @@ async function editar_producto(id) {
 async function put_product() {
 
     try {
-        
+
         let product_body_sent = construir_producto()
         let id = $('#product-form').data('id');
 
@@ -291,6 +291,52 @@ async function put_product() {
 
 }
 
+//DELETE PRODUCTO
+$('#products-table tbody').on('click', '.boton-delete-pr', function () {
+    let productId = $(this).data('id');
+    $('#deleteProductModal').attr('data-id', productId);
+});
+
+document.getElementById("btn-eliminar-producto").addEventListener("click",()=>{
+    let productId = $('#deleteProductModal').data('id');
+    delete_product(productId)
+})
+
+async function delete_product(id){
+
+    try {
+
+     
+        let response = await apiservice.deleteProduct(id)
+
+        let response_error = response.getStatus()
+
+        if (response_error >= 400) {
+
+            if (response_error == 500) {
+                obj_alert.show("Internal api error", salirAlerta)
+                return
+            }
+            else {
+                obj_alert.show("Hubo un error en la eliminacion del producto", salirAlerta)
+                return
+            }
+
+        }
+
+        obj_spinner.hide()
+        obj_alert.show("Producto eliminado con exito", salirAlerta)
+        refreshTableProductos()
+
+    }
+    catch (error) {
+        obj_alert.show(error.message, salirAlerta)
+        obj_spinner.hide()
+    }
+}
+
+
+
 //COMUNES PARA ALTA Y MODIFICACION
 function construir_producto() {
 
@@ -309,10 +355,14 @@ function construir_producto() {
 }
 
 async function refreshTableProductos() {
-    array_data = await apiservice.getAllProducts()
-    data_products = array_data.getBody()
-    products_table.clear().rows.add(data_products).draw();
+    let currentPage = products_table.page(); 
+    array_data = await apiservice.getAllProducts();
+    data_products = array_data.getBody();
+    
+    products_table.clear().rows.add(data_products).draw(false); 
+    products_table.page(currentPage).draw(false); 
 }
+
 
 function salirAlerta() {
     reset_from()
