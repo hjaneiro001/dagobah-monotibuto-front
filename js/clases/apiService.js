@@ -163,6 +163,7 @@ export class ApiService {
     }
 
   }
+  
 
   // Productos
 
@@ -171,6 +172,34 @@ export class ApiService {
     try {
       let response = await fetch(this.url + "products/", {
         method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(product),
+      });
+
+      let data = await response.json();
+
+      return {
+        getStatus: () => response.status,
+        getBody: () => data,
+      };
+
+    } catch (error) {
+      console.error("Error fetching products:", error);
+      return {
+        getStatus: () => null,
+        getBody: () => { return { error: error.message }; }
+      };
+    }
+  }
+
+
+  async putProduct(id,product) {
+
+    try {
+      let response = await fetch(this.url + "products/"+id, {
+        method: "PUT",
         headers: {
           "Content-Type": "application/json",
         },
@@ -217,6 +246,56 @@ export class ApiService {
     }
 
   }
+
+  async getProducts(id){
+
+    try {
+      let response = await fetch("http://localhost:5000/products/" + id);
+      let data = await response.json();
+
+      return {
+        getStatus: () => response.status,
+        getBody: () => data
+      };
+
+    } catch {
+      console.error("Error fetching products:", error);
+      return {
+        getStatus: () => null,
+        getBody: () => { return { error: error.message }; }
+      };
+    }
+
+  }
+
+
+  async postProduct(product) {
+
+    try {
+      let response = await fetch(this.url + "products/", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(product),
+      });
+
+      let data = await response.json();
+
+      return {
+        getStatus: () => response.status,
+        getBody: () => data,
+      };
+
+    } catch (error) {
+      console.error("Error fetching products:", error);
+      return {
+        getStatus: () => null,
+        getBody: () => { return { error: error.message }; }
+      };
+    }
+  }
+
 
 }
 

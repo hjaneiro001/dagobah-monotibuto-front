@@ -6,13 +6,13 @@ import {
     Spinner
 } from "../clases/spinner.js"
 
-import{
+import {
     ProductBody
 } from "../clases/bodys/product_body.js"
 
-import{
+import {
     Alert
-}from "../clases/alert.js"
+} from "../clases/alert.js"
 
 let apiservice = new ApiService
 let product_body = new ProductBody
@@ -26,6 +26,9 @@ obj_spinner.show()
 var array_data = []
 array_data = await apiservice.getAllProducts()
 var data_products = array_data.getBody()
+
+// controla si es ALTA O MODIFICACION
+var tipo_persistencia
 
 // Define variable table del dtatable
 var products_table
@@ -95,7 +98,8 @@ $(document).ready(function () {
             targets: 3,
             width: '15%',
             render: (data, type, row, meta) => {
-                return `<div><p class="mb-0 text-end">${row.currency} ${row.price}</p></div>`;
+                return `<div><p class="mb-0 text-end">${row.currency['denomination']} ${row.price}</p></div>`;
+                // return `<div><p class="mb-0 text-end"> ${row.price}</p></div>`;
             }
         },
         {
@@ -117,7 +121,16 @@ $(document).ready(function () {
             width: '10%',
             data: null,
             render: function (data, type, row, meta) {
-                return '<button id="boton-delete-pr" class="btn btn-outline-secondary me-2"><i class="bi bi-trash"></i></button><button id="boton-editar-pr" class="btn btn-outline-secondary mr-2" data-toggle="modal" data-target="#form-prod"><i class="bi bi-pen"></i></button>'
+                return `
+                    <button class="btn btn-outline-secondary me-2 boton-delete-pr">
+                        <i class="bi bi-trash"></i>
+                    </button>
+                    <button class="btn btn-outline-secondary mr-2 boton-editar-pr" 
+                        data-bs-toggle="modal" data-bs-target="#product-modal" 
+                        data-id="${row.product_id}">
+                        <i class="bi bi-pen"></i>
+                    </button>
+                `;
             }
         }
         ],
@@ -140,55 +153,146 @@ $(document).ready(function () {
 
 })
 
-// Alta Producto
+//SUBMIT FORM
 $("#product-form").submit(async function (event) {
     obj_spinner.show()
 
     event.preventDefault();
-  
-    let form = document.getElementById('product-form');
-  
-    if (!form.checkValidity()) {
-      event.stopPropagation(); 
-      form.classList.add('was-validated'); 
-      obj_spinner.hide()
-      return; 
-    }
-  
 
-    try{
+    let form = document.getElementById('product-form');
+
+    if (!form.checkValidity()) {
+        event.stopPropagation();
+        form.classList.add('was-validated');
+        obj_spinner.hide()
+        return;
+    }
+
+    if (tipo_persistencia == "POST") {
+        await post_product()
+    } else if (tipo_persistencia == "PUT") {
+        await put_product()
+    } else {
+        obj_alert.show("Error en la transaccion", salirAlerta)
+        return
+    }
+
+});
+
+// Alta Producto
+document.getElementById("btn-alta-producto").addEventListener("click", () => {
+    $("#product-form")[0].reset();
+    tipo_persistencia = "POST"
+})
+
+
+async function post_product() {
+
+    try {
         let product_body_sent = construir_producto()
+
         let response = await apiservice.postProduct(product_body_sent)
 
         let response_error = response.getStatus()
-        if(response_error >= 400){
-            if(response_error == 409){
-                obj_alert.show("Producto ya existente",salirAlerta)
+        if (response_error >= 400) {
+            if (response_error == 409) {
+                obj_alert.show("Producto ya existente", salirAlerta)
                 return
             }
-            else if(response_error == 500){
-                obj_alert.show("Internal api error",salirAlerta)
+            else if (response_error == 500) {
+                obj_alert.show("Internal api error", salirAlerta)
                 return
             }
-        else{
-            obj_alert.show("Hubo un error en el alta del producto",salirAlerta)
-            return
+            else {
+                obj_alert.show("Hubo un error en el alta del producto", salirAlerta)
+                return
             }
         }
-        
+
         obj_spinner.hide()
-        obj_alert.show("Producto creado con exito",salirAlerta)
+        obj_alert.show("Producto creado con exito", salirAlerta)
         $("#product-modal").modal("hide");
+        refreshTableProductos()
+        reset_from()
 
-      }
-      catch(error){
-        obj_alert.show(error.message,salirAlerta)
+    }
+    catch (error) {
+        obj_alert.show(error.message, salirAlerta)
         obj_spinner.hide()
-      }
+    }
+}
 
-  });
-  
-function construir_producto(){
+// Edicion Producto
+
+$('#products-table tbody').on('click', '.boton-editar-pr', function () {
+    let productId = $(this).data('id');
+    tipo_persistencia = "PUT"
+    if (productId) {
+        editar_producto(productId)
+    }
+});
+
+async function editar_producto(id) {
+
+    $('#product-form').attr('data-id', id);
+    let product = await apiservice.getProducts(id)
+    let data_product = product.getBody()
+
+    if (product.getStatus >= 400) {
+        obj_alert.show("Error en la carga del producto", salirAlerta)
+    } else {
+        $('#nombre-prod').val(data_product.name);
+        $('#descripcion-prod').val(data_product.description);
+        $('#codigo-prod').val(data_product.code);
+        $('#codigo-barras-prod').val(data_product.bar_code);
+        $('#iva-prod').val(data_product.iva).trigger("change");
+        $('#moneda-prod').val(data_product.currency['value']).trigger("change");
+        $('#precio-prod').val(data_product.price);
+        $('#tipo-prod').val(data_product.product_type).trigger("change");
+        $('#packing-prod').val(data_product.pack);
+    }
+}
+
+async function put_product() {
+
+    try {
+        
+        let product_body_sent = construir_producto()
+        let id = $('#product-form').data('id');
+
+        let response = await apiservice.putProduct(id, product_body_sent)
+
+        let response_error = response.getStatus()
+
+        if (response_error >= 400) {
+
+            if (response_error == 500) {
+                obj_alert.show("Internal api error", salirAlerta)
+                return
+            }
+            else {
+                obj_alert.show("Hubo un error en la modificacion del producto", salirAlerta)
+                return
+            }
+
+        }
+
+        obj_spinner.hide()
+        obj_alert.show("Producto modificado con exito", salirAlerta)
+        $("#product-modal").modal("hide");
+        refreshTableProductos()
+        reset_from
+
+    }
+    catch (error) {
+        obj_alert.show(error.message, salirAlerta)
+        obj_spinner.hide()
+    }
+
+}
+
+//COMUNES PARA ALTA Y MODIFICACION
+function construir_producto() {
 
     product_body.setName($('#nombre-prod').val())
     product_body.setDescription($('#descripcion-prod').val())
@@ -204,17 +308,19 @@ function construir_producto(){
 
 }
 
-
-async function refreshTableProductos(){
+async function refreshTableProductos() {
     array_data = await apiservice.getAllProducts()
-    data_products = array_data.getBody()   
+    data_products = array_data.getBody()
     products_table.clear().rows.add(data_products).draw();
 }
 
-function salirAlerta(){
-    refreshTableProductos()
+function salirAlerta() {
+    reset_from()
 }
 
-// Edicion Producto
-
+function reset_from() {
+    $("#product-form")[0].reset();
+    $("#product-form").removeClass("was-validated");
+    $('#product-form').attr('data-id', "");
+}
 

@@ -41,7 +41,7 @@
 
       <div class="modal-body">
         <div class="container">
-          <form id="product-form" class="row g-3 needs-validation" novalidate>
+          <form id="product-form" class="row g-3 needs-validation" data-id="" novalidate>
 
             <!-- Nombre -->
             <div class="form-floating col-6">
@@ -74,10 +74,10 @@
               <!-- Select (Tipo) -->
               <div class="form-floating col-3">
                 <select class="form-select" id="tipo-prod" required>
-                  <option value="" selected disabled>Seleccione un tipo de producto</option>
-                  <option value="1">PRODUCTO</option>
-                  <option value="2">SERVICIO</option>
-                  <option value="2">PRODUCTO y SERVICIO</SEarch></option>
+                  <option value="0" selected disabled>Seleccione un tipo de producto</option>
+                  <option value="PRODUCTO">PRODUCTO</option>
+                  <option value="SERVICIO">SERVICIO</option>
+                  <option value="PRODUCTO y SERVICIO">PRODUCTO y SERVICIO</SEarch></option>
                 </select>
                 <label for="tipo-prod" class="ms-1">Tipo</label>
                 <div class="invalid-feedback">Por favor, seleccione una tipo.</div>
@@ -95,9 +95,9 @@
             <!-- Select (Moneda) -->
             <div class="form-floating col-3">
               <select class="form-select" id="moneda-prod" required>
-                <option value="" selected disabled>Seleccione una moneda</option>
-                <option value="1">PESOS</option>
-                <option value="2">DOLARES</option>
+                <option value="0" selected disabled>Seleccione una moneda</option>
+                <option value="PESOS">PESOS</option>
+                <option value="DOLARES">DOLARES</option>
               </select>
               <label for="moneda-prod">Moneda</label>
               <div class="invalid-feedback">Por favor, seleccione una moneda.</div>
@@ -106,14 +106,14 @@
             <!-- Select (iva) -->
             <div class="form-floating col-3">
               <select class="form-select" id="iva-prod" required>
-                <option value="" selected disabled>Seleccione un iva</option>
-                <option value="1">IVA 21%</option>
-                <option value="2">IVA 27%</option>
-                <option value="2">Iva 10.5%</option>
-                <option value="2">Iva 5%</option>
-                <option value="2">Iva 2.5%</option>
-                <option value="2">IVA EXENTO</option>
-                <option value="2">IVA NO GRAVADO</option>
+                <option value="0" selected disabled>Seleccione un iva</option>
+                <option value="IVA 21%">IVA 21%</option>
+                <option value="IVA 27%">IVA 27%</option>
+                <option value="Iva 10.5%">Iva 10.5%</option>
+                <option value="Iva 5%">Iva 5%</option>
+                <option value="Iva 2.5%">Iva 2.5%</option>
+                <option value="IVA EXENTO">IVA EXENTO</option>
+                <option value="IVA NO GRAVADO">IVA NO GRAVADO</option>
               </select>
               <label for="iva-prod">Iva</label>
               <div class="invalid-feedback">Por favor, seleccione una iva.</div>
