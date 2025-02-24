@@ -39,7 +39,7 @@ $(document).ready(function () {
 
         data: data_products,
 
-        ordering: false,
+        ordering: true,
 
         "autoWidth": false,
 
@@ -119,6 +119,7 @@ $(document).ready(function () {
             targets: -1,
             width: '10%',
             data: null,
+            orderable: false,
             render: function (data, type, row, meta) {
                 return `
                     <button class="btn btn-outline-secondary me-2 boton-delete-pr"
@@ -197,14 +198,17 @@ async function post_product() {
         if (response_error >= 400) {
             if (response_error == 409) {
                 obj_alert.show("Producto ya existente", salirAlerta)
+                obj_spinner.hide()
                 return
             }
             else if (response_error == 500) {
                 obj_alert.show("Internal api error", salirAlerta)
+                obj_spinner.hide()
                 return
             }
             else {
                 obj_alert.show("Hubo un error en el alta del producto", salirAlerta)
+                obj_spinner.hide()
                 return
             }
         }
@@ -268,10 +272,12 @@ async function put_product() {
 
             if (response_error == 500) {
                 obj_alert.show("Internal api error", salirAlerta)
+                obj_spinner.hide()
                 return
             }
             else {
                 obj_alert.show("Hubo un error en la modificacion del producto", salirAlerta)
+                obj_spinner.hide()
                 return
             }
 
@@ -281,10 +287,11 @@ async function put_product() {
         obj_alert.show("Producto modificado con exito", salirAlerta)
         $("#product-modal").modal("hide");
         refreshTableProductos()
-        reset_from
+        reset_from()
 
     }
     catch (error) {
+        $("#product-modal").modal("hide");
         obj_alert.show(error.message, salirAlerta)
         obj_spinner.hide()
     }
@@ -324,7 +331,6 @@ async function delete_product(id){
 
         }
 
-        obj_spinner.hide()
         obj_alert.show("Producto eliminado con exito", salirAlerta)
         refreshTableProductos()
 

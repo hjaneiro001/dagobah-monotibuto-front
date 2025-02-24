@@ -21,6 +21,7 @@ export class ApiService {
 
   //CLIENTES
   async getAllClientes() {
+  
     try {
       let response = await fetch(this.url + "clients/");
 
@@ -64,20 +65,22 @@ export class ApiService {
     }
   }
 
-  //PRODUCTOS
-  async getAllProductos() {
-    try {
-      let response = await fetch(this.url + "products/");
+  async postClient(client) {
 
-      if (!response.ok) {
-        throw new Error(`HTTP error! Status: ${response.status}`);
-      }
+    try {
+      let response = await fetch(this.url + "clients/", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(client),
+      });
 
       let data = await response.json();
 
       return {
         getStatus: () => response.status,
-        getBody: () => data
+        getBody: () => data,
       };
 
     } catch (error) {
@@ -87,10 +90,66 @@ export class ApiService {
         getBody: () => { return { error: error.message }; }
       };
     }
-
   }
 
-  //Documentos
+  async putClient(id,client) {
+
+    try {
+      let response = await fetch(this.url + "clients/"+id, {
+        method: "PUT",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(client),
+      });
+
+      let data = await response.json();
+
+      return {
+        getStatus: () => response.status,
+        getBody: () => data,
+      };
+
+    } catch (error) {
+      console.error("Error fetching products:", error);
+      return {
+        getStatus: () => null,
+        getBody: () => { return { error: error.message }; }
+      };
+    }
+  }
+
+
+  async deleteClient(id) {
+
+    alert(id)
+
+    try {
+      let response = await fetch(this.url + "clients/"+id, {
+        method: "DELETE",
+        headers: {
+          "Content-Type": "application/json",
+        },
+      });
+
+      let data = await response.json();
+
+      return {
+        getStatus: () => response.status,
+        getBody: () => data,
+      };
+
+    } catch (error) {
+      console.error("Error fetching clients:", error);
+      return {
+        getStatus: () => null,
+        getBody: () => { return { error: error.message }; }
+      };
+    }
+  }
+
+
+  //DOCUMENTOS
   async postDocument(document) {
 
     try {
@@ -222,6 +281,33 @@ export class ApiService {
     }
   }
 
+
+  //PRODUCTOS
+  // async getAllProductos() {
+  //   try {
+  //     let response = await fetch(this.url + "products/");
+
+  //     if (!response.ok) {
+  //       throw new Error(`HTTP error! Status: ${response.status}`);
+  //     }
+
+  //     let data = await response.json();
+
+  //     return {
+  //       getStatus: () => response.status,
+  //       getBody: () => data
+  //     };
+
+  //   } catch (error) {
+  //     console.error("Error fetching products:", error);
+  //     return {
+  //       getStatus: () => null,
+  //       getBody: () => { return { error: error.message }; }
+  //     };
+  //   }
+
+  // }
+
   async getAllProducts() {
     try {
       let response = await fetch(this.url + "products/");
@@ -269,7 +355,7 @@ export class ApiService {
   }
 
 
-  async deleteProduct(id,product) {
+  async deleteProduct(id) {
 
     try {
       let response = await fetch(this.url + "products/"+id, {

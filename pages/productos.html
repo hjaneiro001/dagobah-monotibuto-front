@@ -89,7 +89,7 @@
               <input class="form-control text-end" id="precio-prod" type="number" step="0.01" placeholder="Precio del producto"
                 required>
               <label for="precio-prod" class="ms-1">Precio</label>
-              <div class="invalid-feedback">Ingrese un vaor para el producto.</div>
+              <div class="invalid-feedback">Ingrese un valor para el producto.</div>
             </div>
 
             <!-- Select (Moneda) -->
@@ -119,7 +119,7 @@
               <div class="invalid-feedback">Por favor, seleccione una iva.</div>
             </div>
 
-            <div class="form-floating col-3">
+            <div class="form-floating col-3 text-end">
               <input class="form-control " id="packing-prod" type="number" step="0.01" placeholder="Precio del producto">
               <label for="packing-prod" class="ms-1">Packing</label>
             </div>
@@ -145,7 +145,7 @@
   <div class="modal-dialog">
     <div class="modal-content">
       <div class="modal-header">
-        <h1 class="modal-title fs-5" id="modalStaticLabel">Eliminar Producto</h1>
+        <h1 class="modal-title fs-5 text-center" id="modalStaticLabel">Eliminar Producto</h1>
         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
       </div>
       <div class="modal-body">
@@ -158,23 +158,5 @@
     </div>
   </div>
 </div>
-
-<script>
-  (() => {
-    'use strict';
-
-    // Obtener el formulario
-    const form = document.getElementById('product-form');
-
-    form.addEventListener('submit', (event) => {
-      if (!form.checkValidity()) {
-        event.preventDefault();
-        event.stopPropagation();
-      }
-      form.classList.add('was-validated');
-    }, false);
-  })();
-
-</script>
 
 <script src="../js/sources/app.productos.js" type="module"></script>

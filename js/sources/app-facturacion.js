@@ -33,7 +33,7 @@ bloquear_comprobantes()
 
 
 // Carga Productos en select
-let productos = await apiservice.getAllProductos()
+let productos = await apiservice.getAllProducts()
 let array_productos = await productos.getBody()
 
 // Tipo Comprobante
