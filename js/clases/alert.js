@@ -1,6 +1,6 @@
 export class Alert {
     constructor() {
-        this.callback = null; 
+        this.callback = null;
         this.init();
     }
 
@@ -13,7 +13,14 @@ export class Alert {
         }
     }
 
-    show(msg, callback = null) {
+    show(msg, callback = null,color = null) {
+        if(color=='warning'){
+            document.getElementById("alert").classList.remove('alert-success')
+            document.getElementById("alert").classList.add('alert-warning')
+        }else{
+            document.getElementById("alert").classList.remove('alert-warning')
+            document.getElementById("alert").classList.add('alert-success')
+        }
         let alertElement = document.getElementById("alert");
         let overlayElement = document.getElementById("overlay");
         let msgElement = document.getElementById("alert-msg");

@@ -290,16 +290,19 @@ document.getElementById("date-to").addEventListener("change", function() {
 document.getElementById("emitir-documento").addEventListener("click", async () => {
 
   obj_spinner.show()
+  var color = 'success'
 
   try{
     construir_items()
     validateDocument(document_body.getDocument()); 
     let response = await apiservice.postDocument(document_body.getDocument())
     if(response.getStatus() >= 400){
-      obj_alert("Hubo un error en la emision del documento, intentelo mas tarde",salirFacturacion)
+      color = 'warning'
+      obj_alert.show("Hubo un error en la emision del documento, intentelo mas tarde",salirFacturacion,color)
     }
-    
+
     let body = response.getBody()
+    color = 'success'
     let msg = `
     Factura emitida con éxito <a id="get-bill" value=${body.document_id} class="alert-link" style="cursor: pointer">
     ${body.document_type} ${body.pos}-${body.number}
@@ -307,12 +310,13 @@ document.getElementById("emitir-documento").addEventListener("click", async () =
   `;
  
     obj_spinner.hide()
-    obj_alert.show(msg,salirFacturacion)
+    obj_alert.show(msg,salirFacturacion,color)
     inicializa_comprobante()
   
   }
   catch(error){
-    obj_alert.show(error.message,cierraAlerta)
+    color = 'warning'
+    obj_alert.show(error.message,cierraAlerta,color)
     obj_spinner.hide()
   }
   
@@ -342,7 +346,7 @@ function construir_items() {
   });
 
   if (hasError) {
-    obj_alert.show("Error en los items de la factura. Corrige los datos antes de continuar.", cierraAlerta);
+    obj_alert.show("Error en los items de la factura. Corrige los datos antes de continuar.", cierraAlerta,'warning');
     throw new Error("Error en los items de la factura.");
   }
 }
@@ -390,7 +394,7 @@ document.body.addEventListener("click", async (event) => {
       obj_alert.hide()
       window.location.reload()
     } else {
-      obj_alert("No se puede descargar el documento",salirFacturacion);
+      obj_alert.show("No se puede descargar el documento",salirFacturacion,'warning');
     }
   
   }

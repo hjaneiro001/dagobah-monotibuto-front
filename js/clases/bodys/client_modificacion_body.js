@@ -1,4 +1,4 @@
-export class ClientBody {
+export class ClientModificacionBody {
 
     constructor(){
        this.reset()
@@ -13,7 +13,6 @@ export class ClientBody {
         this.country = ""
         this.email = ""
         this.phone = ""
-        this.tax_id= ""
         this.tax_condition = ""
         this.type_id = ""
         this.client_type = "CLIENTE"
@@ -46,10 +45,6 @@ export class ClientBody {
 
     setPhone(_phone){
         this.phone = _phone
-    }
-   
-    setTaxId(_tax_id){
-        this.tax_id= _tax_id
     }
    
     setTaxCondition(_tax_condition){

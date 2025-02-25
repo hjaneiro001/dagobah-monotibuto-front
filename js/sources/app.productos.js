@@ -174,7 +174,7 @@ $("#product-form").submit(async function (event) {
     } else if (tipo_persistencia == "PUT") {
         await put_product()
     } else {
-        obj_alert.show("Error en la transaccion", salirAlerta)
+        obj_alert.show("Error en la transaccion", salirAlerta,'warning')
         return
     }
 
@@ -198,31 +198,31 @@ async function post_product() {
         let response_error = response.getStatus()
         if (response_error >= 400) {
             if (response_error == 409) {
-                obj_alert.show("Producto ya existente", salirAlerta)
+                obj_alert.show("Producto ya existente", salirAlerta,'warning')
                 obj_spinner.hide()
                 return
             }
             else if (response_error == 500) {
-                obj_alert.show("Internal api error", salirAlerta)
+                obj_alert.show("Internal api error", salirAlerta,'warning')
                 obj_spinner.hide()
                 return
             }
             else {
-                obj_alert.show("Hubo un error en el alta del producto", salirAlerta)
+                obj_alert.show("Hubo un error en el alta del producto", salirAlerta,'warning')
                 obj_spinner.hide()
                 return
             }
         }
 
         obj_spinner.hide()
-        obj_alert.show("Producto creado con exito", salirAlerta)
+        obj_alert.show("Producto creado con exito", salirAlerta,'success')
         $("#product-modal").modal("hide");
         refreshTableProductos()
         reset_from()
 
     }
     catch (error) {
-        obj_alert.show(error.message, salirAlerta)
+        obj_alert.show(error.message, salirAlerta,'warning')
         obj_spinner.hide()
     }
 }
@@ -245,7 +245,7 @@ async function editar_producto(id) {
     let data_product = product.getBody()
 
     if (product.getStatus >= 400) {
-        obj_alert.show("Error en la carga del producto", salirAlerta)
+        obj_alert.show("Error en la carga del producto", salirAlerta,'warning')
     } else {
         $('#nombre-prod').val(data_product.name);
         $('#descripcion-prod').val(data_product.description);
@@ -271,14 +271,15 @@ async function put_product() {
         let response_error = response.getStatus()
 
         if (response_error >= 400) {
-
+            $("#product-modal").modal("hide");
             if (response_error == 500) {
-                obj_alert.show("Internal api error", salirAlerta)
+                obj_alert.show("Internal api error", salirAlerta,'warning')
                 obj_spinner.hide()
                 return
             }
-            else {
-                obj_alert.show("Hubo un error en la modificacion del producto", salirAlerta)
+            else if (response_error == 409)  {
+
+                obj_alert.show("No puede duplicar el codigo del producto", volverForm,'warning')
                 obj_spinner.hide()
                 return
             }
@@ -286,7 +287,7 @@ async function put_product() {
         }
 
         obj_spinner.hide()
-        obj_alert.show("Producto modificado con exito", salirAlerta)
+        obj_alert.show("Producto modificado con exito", salirAlerta,'success')
         $("#product-modal").modal("hide");
         refreshTableProductos()
         reset_from()
@@ -294,7 +295,7 @@ async function put_product() {
     }
     catch (error) {
         $("#product-modal").modal("hide");
-        obj_alert.show(error.message, salirAlerta)
+        obj_alert.show(error.message, salirAlerta,'warning')
         obj_spinner.hide()
     }
 
@@ -323,22 +324,22 @@ async function delete_product(id){
         if (response_error >= 400) {
 
             if (response_error == 500) {
-                obj_alert.show("Internal api error", salirAlerta)
+                obj_alert.show("Internal api error", salirAlerta,'warning')
                 return
             }
             else {
-                obj_alert.show("Hubo un error en la eliminacion del producto", salirAlerta)
+                obj_alert.show("Hubo un error en la eliminacion del producto", salirAlerta,'warning')
                 return
             }
 
         }
 
-        obj_alert.show("Producto eliminado con exito", salirAlerta)
+        obj_alert.show("Producto eliminado con exito", salirAlerta,'success')
         refreshTableProductos()
 
     }
     catch (error) {
-        obj_alert.show(error.message, salirAlerta)
+        obj_alert.show(error.message, salirAlerta,'warning')
         obj_spinner.hide()
     }
 }
@@ -374,6 +375,10 @@ async function refreshTableProductos() {
 
 function salirAlerta() {
     reset_from()
+}
+
+function volverForm(){
+    $("#product-modal").modal("show");
 }
 
 function reset_from() {

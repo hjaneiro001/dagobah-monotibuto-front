@@ -10,12 +10,17 @@ import {
     ClientBody
 }from "../clases/bodys/client_body.js"
 
+import{
+    ClientModificacionBody
+}from "../clases/bodys/client_modificacion_body.js"
+
 import {
     Alert
 } from "../clases/alert.js"
 
 let apiservice = new ApiService
 let client_body = new ClientBody
+let client_modificacion_body = new ClientModificacionBody
 let obj_alert = new Alert
 
 // Inicilaiza y lanza spinner
@@ -174,7 +179,7 @@ $("#client-form").submit(async function (event) {
     } else if (tipo_persistencia == "PUT") {
         await put_client()
     } else {
-        obj_alert.show("Error en la transaccion", salirAlerta)
+        obj_alert.show("Error en la transaccion", salirAlerta,'warning')
         return
     }
 
@@ -184,6 +189,7 @@ $("#client-form").submit(async function (event) {
 document.getElementById("btn-alta-cliente").addEventListener("click", () => {
     $("#client-form")[0].reset();
     document.getElementById("clientModalLabel").innerText = "Alta Cliente"
+    document.getElementById('numero-identificacion-cliente').disabled = false
     tipo_persistencia = "POST"
 })
 
@@ -197,30 +203,30 @@ async function post_client() {
         let response_error = response.getStatus()
         if (response_error >= 400) {
             if (response_error == 409) {
-                obj_alert.show("Cliente ya existente", salirAlerta)
+                obj_alert.show("Cliente ya existente", salirAlerta,'warning')
                 obj_spinner.hide()
                 return
             }
             else if (response_error == 500) {
-                obj_alert.show("Internal api error", salirAlerta)
+                obj_alert.show("Internal api error", salirAlerta,'warning')
                 obj_spinner.hide()
                 return
             }
             else {
-                obj_alert.show("Hubo un error en el alta del Cliente", salirAlerta)
+                obj_alert.show("Hubo un error en el alta del Cliente", salirAlerta,'warning')
                 obj_spinner.hide()
                 return
             }
         }
 
         obj_spinner.hide()
-        obj_alert.show("Cliente creado con exito", salirAlerta)
+        obj_alert.show("Cliente creado con exito", salirAlerta,'success')
         $("#client-modal").modal("hide");
         refreshTableClients()
         reset_form()
     }
     catch (error) {
-        obj_alert.show(error.message, salirAlerta)
+        obj_alert.show(error.message, salirAlerta,'warning')
         obj_spinner.hide()
         $("#client-modal").modal("hide");
         reset_form()
@@ -233,7 +239,7 @@ async function post_client() {
 $('#clients-table tbody').on('click', '.boton-editar-cliente', function () {
     let clientId = $(this).data('id');
     document.getElementById("clientModalLabel").innerText = "Modificar Cliente"
-    
+    document.getElementById('numero-identificacion-cliente').disabled = true
     tipo_persistencia = "PUT"
     if (clientId) {
         editar_cliente(clientId)
@@ -247,7 +253,8 @@ async function editar_cliente(id) {
     let data_client = client.getBody()
 
     if (client.getStatus >= 400) {
-        obj_alert.show("Error en la carga del cliente", salirAlerta)
+        obj_alert.show("Error en la carga del cliente", salirAlerta,'warning')
+        $("#client-modal").modal("hide");
     } else {
             $('#nombre-cliente').val(data_client.name)
             $('#direccion-cliente').val(data_client.address)
@@ -266,7 +273,7 @@ async function put_client() {
 
     try {
 
-        let client_body_sent = construir_cliente()
+        let client_body_sent = construir_cliente_modificacion()
         let id = $('#client-form').data('id');
 
         let response = await apiservice.putClient(id, client_body_sent)
@@ -276,12 +283,12 @@ async function put_client() {
         if (response_error >= 400) {
 
             if (response_error == 500) {
-                obj_alert.show("Internal api error", salirAlerta)
+                obj_alert.show("Internal api error", salirAlerta,'warning')
                 obj_spinner.hide()
                 return
             }
             else {
-                obj_alert.show("Hubo un error en la modificacion del cliente", salirAlerta)
+                obj_alert.show("Hubo un error en la modificacion del cliente", salirAlerta,'warning')
                 obj_spinner.hide()
                 return
             }
@@ -289,7 +296,7 @@ async function put_client() {
         }
 
         obj_spinner.hide()
-        obj_alert.show("Cliente modificado con exito", salirAlerta)
+        obj_alert.show("Cliente modificado con exito", salirAlerta,'success')
         $("#client-modal").modal("hide");
         refreshTableClients()
         reset_form()
@@ -297,7 +304,7 @@ async function put_client() {
     }
     catch (error) {
         $("#client-modal").modal("hide");
-        obj_alert.show(error.message, volverForm)
+        obj_alert.show(error.message, volverForm,'warning')
         obj_spinner.hide()
     }
 
@@ -327,22 +334,22 @@ async function delete_client(id){
         if (response_error >= 400) {
 
             if (response_error == 500) {
-                obj_alert.show("Internal api error", salirAlerta)
+                obj_alert.show("Internal api error", salirAlerta,'warning')
                 return
             }
             else {
-                obj_alert.show("Hubo un error en la eliminacion del cliente", salirAlerta)
+                obj_alert.show("Hubo un error en la eliminacion del cliente", salirAlerta,'warning')
                 return
             }
 
         }
 
-        obj_alert.show("Cliente eliminado con exito", salirAlerta)
+        obj_alert.show("Cliente eliminado con exito", salirAlerta,'success')
         refreshTableClients()
 
     }
     catch (error) {
-        obj_alert.show(error.message, salirAlerta)
+        obj_alert.show(error.message, salirAlerta,'warning')
         obj_spinner.hide()
     }
 }
@@ -363,6 +370,22 @@ function construir_cliente() {
     client_body.setTaxCondition($('#categoria-cliente option:selected').text())
     
     return client_body.getClient()
+
+}
+
+function construir_cliente_modificacion() {
+
+    client_modificacion_body.setName($('#nombre-cliente').val())
+    client_modificacion_body.setAddress($('#direccion-cliente').val())
+    client_modificacion_body.setCity($('#localidad-cliente').val())
+    client_modificacion_body.setState($('#provincia-cliente').val())
+    client_modificacion_body.setCountry($('#pais-cliente').val())
+    client_modificacion_body.setEmail($('#email-cliente').val())
+    client_modificacion_body.setPhone($('#telefono-cliente').val())
+    client_modificacion_body.setTypeId($('#tipo-identificacion-cliente option:selected').text())
+    client_modificacion_body.setTaxCondition($('#categoria-cliente option:selected').text())
+    
+    return client_modificacion_body.getClient()
 
 }
 
