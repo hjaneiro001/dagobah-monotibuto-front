@@ -199,6 +199,28 @@ export class ApiService {
     setTimeout(() => window.URL.revokeObjectURL(url), 5000);
   }
 
+  async getTicket(id) {
+    let response = await fetch(`http://localhost:5000/documents/ticket/${id}`);
+
+    if (!response.ok) {
+      throw new Error(`Error al obtener el PDF: ${response.statusText}`);
+    }
+
+    let blob = await response.blob();
+    let url = window.URL.createObjectURL(blob);
+
+    // Insertar el PDF en el iframe dentro del modal
+    let pdfFrame = document.getElementById("pdfFrame");
+    pdfFrame.src = url;
+
+    // Mostrar el modal
+    let modal = new bootstrap.Modal(document.getElementById("pdfModal"));
+    modal.show();
+
+    // Liberar la URL creada después de un tiempo para evitar desperdicio de memoria
+    setTimeout(() => window.URL.revokeObjectURL(url), 5000);
+  }
+
   async getAllDocuments() {
     try {
       let response = await fetch(this.url + "documents/");

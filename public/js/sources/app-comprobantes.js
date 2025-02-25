@@ -31,7 +31,7 @@ $(document).ready(function () {
 
         data: data,
 
-        ordering: false,
+        ordering: true,
 
         "autoWidth": false,
 
@@ -112,7 +112,14 @@ $(document).ready(function () {
                 width: '10%',
                 data: null,
                 render: function (data, type, row, meta) {                 
-                        return '<div class="text-center"><button id="bill-to-pdf" class="btn btn-outline-secondary btn-sm2"><i class="bi bi-file-earmark-pdf"></i></button></div>'
+                        return `<div class="text-center">
+                        <button id="bill-to-pdf" class="btn btn-outline-secondary btn-sm2"  data-bs-toggle="tooltip" title="Descargar factura en PDF">
+                        <i class="bi bi-file-earmark-pdf"></i>
+                        </button>
+                        <button id="ticket-to-pdf" class="btn btn-outline-secondary btn-sm2"  data-bs-toggle="tooltip" title="Descargar ticket en PDF">
+                        <i class="bi bi-ticket-perforated"></i>
+                        </button>
+                        </div>`
                 }
 
             }
@@ -143,4 +150,22 @@ $(document).ready(function () {
 
     })
 
+
+    $('#documents-table tbody').on('click', '#ticket-to-pdf', async function () {
+
+        let rowData = table.row($(this).parents('tr')).data()
+        obj_spinner.show()
+        await apiservice.getTicket(rowData.document_id)
+        obj_spinner.hide()
+
+    })
+
 })
+
+document.addEventListener("DOMContentLoaded", function () {
+    var tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'));
+    tooltipTriggerList.forEach(function (tooltipTriggerEl) {
+        new bootstrap.Tooltip(tooltipTriggerEl);
+    });
+});
+
