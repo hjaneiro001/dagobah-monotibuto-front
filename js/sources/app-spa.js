@@ -88,6 +88,8 @@ botonHome.forEach(element => {
   });
 })
 
+
+
 document.getElementById("boton-menu-comprobantes").addEventListener("click", () => {
   location.hash = "/comprobantes"
 })
@@ -99,6 +101,7 @@ document.getElementById("boton-menu-clientes").addEventListener("click", () => {
 document.getElementById("boton-menu-productos").addEventListener("click", () => {
   location.hash = "/productos"
 })
+
 
 
 if (!location.hash) {

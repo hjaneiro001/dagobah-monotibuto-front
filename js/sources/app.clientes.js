@@ -183,6 +183,7 @@ $("#client-form").submit(async function (event) {
 // Alta Cliente
 document.getElementById("btn-alta-cliente").addEventListener("click", () => {
     $("#client-form")[0].reset();
+    document.getElementById("clientModalLabel").innerText = "Alta Cliente"
     tipo_persistencia = "POST"
 })
 
@@ -231,6 +232,8 @@ async function post_client() {
 
 $('#clients-table tbody').on('click', '.boton-editar-cliente', function () {
     let clientId = $(this).data('id');
+    document.getElementById("clientModalLabel").innerText = "Modificar Cliente"
+    
     tipo_persistencia = "PUT"
     if (clientId) {
         editar_cliente(clientId)

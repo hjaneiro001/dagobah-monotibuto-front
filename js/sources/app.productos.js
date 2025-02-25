@@ -183,6 +183,7 @@ $("#product-form").submit(async function (event) {
 // Alta Producto
 document.getElementById("btn-alta-producto").addEventListener("click", () => {
     $("#product-form")[0].reset();
+    document.getElementById("productModalLabel").innerText = "Alta Producto"
     tipo_persistencia = "POST"
 })
 
@@ -230,6 +231,7 @@ async function post_product() {
 
 $('#products-table tbody').on('click', '.boton-editar-pr', function () {
     let productId = $(this).data('id');
+    document.getElementById("productModalLabel").innerText = "Modificar Producto"
     tipo_persistencia = "PUT"
     if (productId) {
         editar_producto(productId)
