@@ -250,12 +250,10 @@ async function editar_producto(id) {
         $('#nombre-prod').val(data_product.name);
         $('#descripcion-prod').val(data_product.description);
         $('#codigo-prod').val(data_product.code);
-        $('#codigo-barras-prod').val(data_product.bar_code);
         $('#iva-prod').val(data_product.iva).trigger("change");
         $('#moneda-prod').val(data_product.currency['value']).trigger("change");
         $('#precio-prod').val(data_product.price);
         $('#tipo-prod').val(data_product.product_type).trigger("change");
-        $('#packing-prod').val(data_product.pack);
     }
 }
 
@@ -352,12 +350,10 @@ function construir_producto() {
     product_body.setName($('#nombre-prod').val())
     product_body.setDescription($('#descripcion-prod').val())
     product_body.setCode($('#codigo-prod').val())
-    product_body.setBarCode($('#codigo-barras-prod').val())
     product_body.setIva($('#iva-prod option:selected').text())
     product_body.setCurrency($("#moneda-prod option:selected").text())
     product_body.setPrice($('#precio-prod').val())
     product_body.setProductType($('#tipo-prod option:selected').text())
-    product_body.setPack($('#packing-prod').val())
 
     return product_body.getProduct()
 
@@ -367,7 +363,6 @@ async function refreshTableProductos() {
     let currentPage = products_table.page(); 
     array_data = await apiservice.getAllProducts();
     data_products = array_data.getBody();
-    
     products_table.clear().rows.add(data_products).draw(false); 
     products_table.page(currentPage).draw(false); 
 }
