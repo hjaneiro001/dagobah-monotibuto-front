@@ -7,15 +7,15 @@ export class handlerTemplate {
 
     // Pages
     async getHome(){
-        return await this.html("../pages/home.html")
+        return await this.html("./pages/home.html")
     }
 
     async getFacturacion(){
-        return await this.html("../pages/facturacion.html")
+        return await this.html("./pages/facturacion.html")
     }
   
     async getComprobantes(){
-        return await this.html("../pages/comprobantes.html")
+        return await this.html("./pages/comprobantes.html")
     }
   
     async getClientes(){
@@ -23,7 +23,7 @@ export class handlerTemplate {
     }
 
     async getProductos(){
-        return await this.html("./pages//productos.html")
+        return await this.html("./pages/productos.html")
     }
 
 
