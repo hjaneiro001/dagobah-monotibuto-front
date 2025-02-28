@@ -98,7 +98,8 @@ $(document).ready(function () {
             targets: 3,
             width: '15%',
             render: (data, type, row, meta) => {
-                return `<div><p class="mb-0 text-end">${row.currency['denomination']} ${row.price}</p></div>`;
+                let proudctPriceFotmatted = Number(row.price).toLocaleString('es-AR', { minimumFractionDigits: 2 });
+                return `<div><p class="mb-0 text-end">${row.currency['denomination']} ${proudctPriceFotmatted}</p></div>`;
             }
         },
         {
@@ -137,7 +138,7 @@ $(document).ready(function () {
         ],
 
         language: {
-            url: "//cdn.datatables.net/plug-ins/1.10.15/i18n/Spanish.json"
+            url: "https://cdn.datatables.net/plug-ins/1.13.6/i18n/es-ES.json"
         },
 
         info: false,
@@ -243,6 +244,7 @@ async function editar_producto(id) {
     $('#product-form').attr('data-id', id);
     let product = await apiservice.getProducts(id)
     let data_product = product.getBody()
+    console.log(data_product)
 
     if (product.getStatus >= 400) {
         obj_alert.show("Error en la carga del producto", salirAlerta,'warning')
@@ -252,7 +254,7 @@ async function editar_producto(id) {
         $('#codigo-prod').val(data_product.code);
         $('#iva-prod').val(data_product.iva).trigger("change");
         $('#moneda-prod').val(data_product.currency['value']).trigger("change");
-        $('#precio-prod').val(data_product.price);
+        $('#precio-prod').val(Number(data_product.price).toLocaleString('es-AR', { minimumFractionDigits: 2 }));
         $('#tipo-prod').val(data_product.product_type).trigger("change");
     }
 }

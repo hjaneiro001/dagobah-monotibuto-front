@@ -21,7 +21,7 @@ export class ApiService {
 
   //CLIENTES
   async getAllClientes() {
-  
+
     try {
       let response = await fetch(this.url + "clients/");
 
@@ -92,10 +92,10 @@ export class ApiService {
     }
   }
 
-  async putClient(id,client) {
+  async putClient(id, client) {
 
     try {
-      let response = await fetch(this.url + "clients/"+id, {
+      let response = await fetch(this.url + "clients/" + id, {
         method: "PUT",
         headers: {
           "Content-Type": "application/json",
@@ -125,7 +125,7 @@ export class ApiService {
     alert(id)
 
     try {
-      let response = await fetch(this.url + "clients/"+id, {
+      let response = await fetch(this.url + "clients/" + id, {
         method: "DELETE",
         headers: {
           "Content-Type": "application/json",
@@ -178,7 +178,8 @@ export class ApiService {
   }
 
   async getBill(id) {
-    let response = await fetch(`http://localhost:5000/documents/bill/${id}`);
+
+    let response = await fetch(this.url + `/documents/bill/${id}`);
 
     if (!response.ok) {
       throw new Error(`Error al obtener el PDF: ${response.statusText}`);
@@ -200,7 +201,7 @@ export class ApiService {
   }
 
   async getTicket(id) {
-    let response = await fetch(`http://localhost:5000/documents/ticket/${id}`);
+    let response = await fetch(this.url + `documents/ticket/${id}`);
 
     if (!response.ok) {
       throw new Error(`Error al obtener el PDF: ${response.statusText}`);
@@ -244,7 +245,7 @@ export class ApiService {
     }
 
   }
-  
+
 
   // Productos
 
@@ -276,10 +277,10 @@ export class ApiService {
   }
 
 
-  async putProduct(id,product) {
+  async putProduct(id, product) {
 
     try {
-      let response = await fetch(this.url + "products/"+id, {
+      let response = await fetch(this.url + "products/" + id, {
         method: "PUT",
         headers: {
           "Content-Type": "application/json",
@@ -355,7 +356,7 @@ export class ApiService {
 
   }
 
-  async getProducts(id){
+  async getProducts(id) {
 
     try {
       let response = await fetch("http://localhost:5000/products/" + id);
@@ -380,7 +381,7 @@ export class ApiService {
   async deleteProduct(id) {
 
     try {
-      let response = await fetch(this.url + "products/"+id, {
+      let response = await fetch(this.url + "products/" + id, {
         method: "DELETE",
         headers: {
           "Content-Type": "application/json",

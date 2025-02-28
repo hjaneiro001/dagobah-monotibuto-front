@@ -86,7 +86,28 @@ input.addEventListener("input", () => {
   }
 });
 
-// Selecciona item
+// Inicia con click seleccion del cliente
+input.addEventListener("click", () => {
+  dropdownList.innerHTML = "";
+
+  // Muestra todas las opciones si el input está vacío
+  if (input.value.trim() === "") {
+    options.forEach(option => {
+      const li = document.createElement("li");
+      li.innerHTML = `<button 
+          type="button" 
+          class="dropdown-item" 
+          data-id="${option.pk_client}" 
+          data-cuit="${option.tax_id}">
+            ${option.name} (${option.tax_id})
+          </button>`;
+      dropdownList.appendChild(li);
+    });
+    dropdownList.classList.add("show");
+  }
+});
+
+// Selecciona cliente
 dropdownList.addEventListener("click", async (event) => {
   if (event.target.tagName === "BUTTON") {
     const name = event.target.textContent;
@@ -189,25 +210,28 @@ $(document).ready(function () {
     $("#btnNuevoItem").prop("disabled", !ultimaFilaCompleta());
   });
 
-  // Evento para calcular el total en tiempo real
+  //Evento para calcular el total en tiempo real
   $(document).on("input change", ".cantidad, .precio, .descuento", function () {
     let fila = $(this).closest("tr");
     let cantidad = parseFloat(fila.find(".cantidad").val()) || 0;
     let precio = parseFloat(fila.find(".precio").val()) || 0;
     let descuento = parseFloat(fila.find(".descuento").val()) || 0;
-
     let subtotal = cantidad * precio;
     let totalConDescuento = subtotal - (subtotal * descuento / 100);
 
     fila.find(".total").text(totalConDescuento.toFixed(2));
   });
-
-  // Evento para asignar precio automáticamente según el producto seleccionado
+  
+  //Evento para asignar precio automáticamente según el producto seleccionado
   $(document).on("change", ".producto", function () {
     let fila = $(this).closest("tr");
-    let precioBase = $(this).find("option:selected").data("precio") || 0;
+    let precioBase = $(this).find("option:selected").data("precio").toFixed(2) || 0;
+
     fila.find(".precio").val(precioBase).trigger("input"); // Disparar evento de input para recalcular
   });
+  
+
+
 
   // Evento para agregar una nueva fila
   $("#btnNuevoItem").click(function () {
@@ -226,7 +250,7 @@ $(document).ready(function () {
     tabla.row.add([
       selectHTML,
       '<input type="number" class="cantidad" min="0.0001">',
-      '<input type="number" class="precio" min="0">',
+      '<input type="text" class="precio" min="0">',
       '<input type="number" class="descuento" min="0" max="100">',
       '<div class="total" style="text-align: right;">0.00</div>',
       '<button class="btn btn-delete">🗑</button>'
@@ -247,8 +271,9 @@ $(document).ready(function () {
     let fila = $(this).closest("tr");
     let cantidad = parseFloat(fila.find(".cantidad").val()) || 0;
     let precio = parseFloat(fila.find(".precio").val()) || 0;
-    let descuento = parseFloat(fila.find(".descuento").val()) || 0;
+    // let precio = parseFloat(fila.find(".precio").val().trim().replace(/,/g, "")) || 0;
 
+    let descuento = parseFloat(fila.find(".descuento").val()) || 0;
     let subtotal = cantidad * precio;
     let totalConDescuento = subtotal - (subtotal * descuento / 100);
 
@@ -379,7 +404,6 @@ function validateDocument(document) {
 
 }
 
-
 //DESCARGAR COMPROBANTE
 document.body.addEventListener("click", async (event) => {
   if (event.target && event.target.id === "get-bill") {
@@ -392,7 +416,6 @@ document.body.addEventListener("click", async (event) => {
       await apiservice.getBill(documentId)
       obj_spinner.hide()
       obj_alert.hide()
-      window.location.reload()
     } else {
       obj_alert.show("No se puede descargar el documento",salirFacturacion,'warning');
     }
@@ -465,5 +488,4 @@ function cierraAlerta(){
 function salirFacturacion(){
   inicializa_comprobante()
   location.hash = "/comprobantes"
-  window.location.reload()
 }

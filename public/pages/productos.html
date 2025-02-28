@@ -26,6 +26,9 @@
   <tbody>
   </tbody>
 </table>
+<div style="width: 100%; height: 50px;">
+</div>
+
 
 <!-- MODAL ALTA EDICION PRODUCTOS -->
 
@@ -64,23 +67,24 @@
               <div class="invalid-feedback">Ingrese un codigo.</div>
             </div>
 
-              <!-- Select (Tipo) -->
-              <div class="form-floating col-4">
-                <select class="form-select" id="tipo-prod" required>
-                  <option value="" selected disabled>Seleccione un tipo de producto</option>
-                  <option value="PRODUCTO">PRODUCTO</option>
-                  <option value="SERVICIO">SERVICIO</option>
-                  <option value="PRODUCTO y SERVICIO">PRODUCTO y SERVICIO</SEarch></option>
-                </select>
-                <label for="tipo-prod" class="ms-1">Tipo</label>
-                <div class="invalid-feedback">Por favor, seleccione una tipo.</div>
-              </div>
+            <!-- Select (Tipo) -->
+            <div class="form-floating col-4">
+              <select class="form-select" id="tipo-prod" required>
+                <option value="" selected disabled>Seleccione un tipo de producto</option>
+                <option value="PRODUCTO">PRODUCTO</option>
+                <option value="SERVICIO">SERVICIO</option>
+                <option value="PRODUCTO y SERVICIO">PRODUCTO y SERVICIO</SEarch>
+                </option>
+              </select>
+              <label for="tipo-prod" class="ms-1">Tipo</label>
+              <div class="invalid-feedback">Por favor, seleccione una tipo.</div>
+            </div>
 
             <hr class="mb-0">
 
             <div class="form-floating col-3">
-              <input class="form-control text-end" id="precio-prod" type="number" step="0.01" placeholder="Precio del producto"
-                required>
+              <input class="form-control text-end" id="precio-prod" type="text" step="0.01"
+                placeholder="Precio del producto" required>
               <label for="precio-prod" class="ms-1">Precio</label>
               <div class="invalid-feedback">Ingrese un valor para el producto.</div>
             </div>
@@ -128,8 +132,9 @@
 </div>
 
 <!-- MODAL DELETE PRODUCTOS -->
- 
-<div class="modal fade" id="deleteProductModal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true" data-id="">
+
+<div class="modal fade" id="deleteProductModal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
+  aria-labelledby="staticBackdropLabel" aria-hidden="true" data-id="">
   <div class="modal-dialog">
     <div class="modal-content">
       <div class="modal-header">
@@ -141,7 +146,8 @@
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Salir</button>
-        <button type="button"  id="btn-eliminar-producto" class="btn btn-primary" data-bs-dismiss="modal">Aceptar</button>
+        <button type="button" id="btn-eliminar-producto" class="btn btn-primary"
+          data-bs-dismiss="modal">Aceptar</button>
       </div>
     </div>
   </div>
