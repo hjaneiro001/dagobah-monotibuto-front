@@ -6,7 +6,6 @@ export class DocumentBody {
     
     reset() {
         this.client_id = null;
-        // this.document_type = "FACTURAC";
         this.date = this.getFormattedDate()
         this.date_serv_from = this.getFormattedDate()
         this.date_serv_to = this.getFormattedDate()
@@ -26,9 +25,6 @@ export class DocumentBody {
         this.client_id = clientId;
     }
 
-    // setDocumentType(type) {
-    //     this.document_type = type;
-    // }
 
     setDate(date) {
         this.date = date;
