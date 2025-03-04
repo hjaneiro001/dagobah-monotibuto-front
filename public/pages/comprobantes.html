@@ -1,0 +1,48 @@
+<div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom"
+  id="home-section">
+  <h1 class="h2">Comprobantes</h1>
+  <div class="btn-toolbar mb-2 mb-md-0">
+    <div class="btn-group me-2">
+      <button id="btn-new-comp" type="button" class="btn btn-sm btn-outline-secondary">Nuevo</button>
+      <button type="button" class="btn btn-sm btn-outline-secondary">Listado</button>
+    </div>
+  </div>
+</div>
+
+
+  <table id="documents-table" class="display" style="width:100%">
+    <thead>
+      <tr>
+        <th class="">Id</th>
+        <th class="">Fecha</th>
+        <th class="">Cliente</th>
+        <th class="">Comprobante</th>
+        <th class="">Numero</th>
+        <th class="text-center">Total</th>
+        <th class="text-center">Acciones</th>
+      </tr>
+    </thead>
+    <tbody>
+    </tbody>
+  </table>
+  <div style="width: 100%; height: 50px;">
+  </div>
+
+
+<!-- Modal de FACTURA -->
+<div class="modal fade" id="pdfModal" tabindex="-1" aria-labelledby="pdfModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-xl"> <!-- Clase modal-xl para mayor tamaño -->
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="pdfModalLabel">Vista Previa de la Factura</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Cerrar"></button>
+      </div>
+      <div class="modal-body" style="height: 80vh;"> <!-- Alto del modal dinámico -->
+        <iframe id="pdfFrame" width="100%" height="100%" style="border: none;"></iframe>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<script src="./js/sources/app-comprobantes.js" type="module"></script>

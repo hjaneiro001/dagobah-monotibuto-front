@@ -1,0 +1,190 @@
+
+<div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom" id="home-section">
+    <h1 class="h2">Clientes</h1>
+    <div class="btn-toolbar mb-2 mb-md-0">
+        <div class="btn-group me-2">
+          <button type="submit" class="btn btn-sm btn-outline-secondary" data-bs-toggle="modal"
+          data-bs-target="#client-modal" id="btn-alta-cliente" >Alta</button>
+          <button type="button" class="btn btn-sm btn-outline-secondary">Listado</button>
+        </div>
+    </div>
+</div>
+
+
+<table id="clients-table" class="display">
+  <thead>
+    <tr>
+      <th></th>
+      <th>Nombre</th>
+      <th class="text-center">Email</th>
+      <th class="text-center">Telefono</th>
+      <th class="text-center">Identificacion</th>
+      <th class="text-center">Condicion</th>
+      <th>Accion</th>
+    </tr>
+  </thead>
+  <tbody>
+  </tbody>
+</table>
+<div style="width: 100%; height: 50px;">
+</div>
+
+
+<!-- MODAL ALTA EDICION CLIENTES -->
+
+<div class="modal fade" id="client-modal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
+  aria-labelledby="staticBackdropLabel" aria-hidden="true">
+  <div class="modal-dialog modal-xl">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h1 class="modal-title fs-5" id="clientModalLabel">Alta Clientes</h1>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+
+      <div class="modal-body">
+        <div class="container">
+          <form id="client-form" class="row g-3 needs-validation" data-id="" novalidate>
+
+            <!-- Nombre -->
+            <div class="form-floating col-6">
+              <input type="text" class="form-control" id="nombre-cliente" placeholder="Nombre" required>
+              <label class="ms-1" for="nombre-prod">Nombre</label>
+              <div class="invalid-feedback">Por favor, ingrese un nombre para el cliente.</div>
+            </div>
+
+            <!-- direccion -->
+            <div class="form-floating col-6">
+              <input type="text" class="form-control" id="direccion-cliente" placeholder="Direccion" required>
+              <label class="ms-1" for="descripcion-prod">Direccion</label>
+              <div class="invalid-feedback">Ingrese una direccion.</div>
+            </div>
+
+            <!-- Localidad -->
+            <div class="form-floating col-4">
+              <input type="text" class="form-control" id="localidad-cliente" placeholder="Localidad" required>
+              <label class="ms-1" for="localidad-cliente">Localidad</label>
+              <div class="invalid-feedback">Ingrese una localidad.</div>
+            </div>
+
+            <!-- Estado -->
+            <div class="form-floating col-4">
+              <input type="text" class="form-control" id="provincia-cliente" placeholder="Provincia" required>
+              <label class="ms-1" for="provincia-cliente">Provincia</label>
+              <div class="invalid-feedback">Ingrese una provincia.</div>
+            </div>
+
+            <!-- pais -->
+            <div class="form-floating col-4">
+              <input type="text" class="form-control" id="pais-cliente" placeholder="Pais" required>
+              <label class="ms-1" for="pais-cliente">Pais</label>
+              <div class="invalid-feedback">Ingrese un Pais.</div>
+            </div>
+
+            <hr class="mb-0">
+
+            <!-- email -->
+            <div class="form-floating col-4">
+              <input class="form-control" id="email-cliente" type="email"  placeholder="Email"
+                required>
+              <label for="email-cliente" class="ms-1">Email</label>
+              <div class="invalid-feedback">Ingrese un email valido.</div>
+            </div>
+
+            <!-- telefono -->
+            <div class="form-floating col-4">
+              <input class="form-control" id="telefono-cliente" type="text"  placeholder="teefono">
+              <label for="telefono-cliente" class="ms-1">Telefono</label>
+            </div>
+
+            <hr class="mb-0">
+
+            <!-- Select (tipo de identificacion) -->
+            <div class="form-floating col-3">
+              <select class="form-select" id="tipo-identificacion-cliente" required>
+                <option value="" selected disabled>Seleccione un tipo de identificacion</option>
+                <option value="CUIT">CUIT</option>
+                <option value="DNI">DNI</option>
+              </select>
+              <label for="mtipo-identificacion-cliente">Tipo identificacion</label>
+              <div class="invalid-feedback">Por favor, seleccione un tipo de identificacion.</div>
+            </div>
+
+            <!-- Numero Identificacion -->
+            <div class="form-floating col-4">
+              <input class="form-control" id="numero-identificacion-cliente" type="text"  placeholder="numero id"
+              required>
+              <label for="numero-identificacion-cliente" class="ms-1">Numero Identificacion</label>
+              <div class="invalid-feedback">Ingrese un numero valido.</div>
+            </div>
+
+
+            <!-- Select (Categoria) -->
+            <div class="form-floating col-5">
+              <select class="form-select" id="categoria-cliente" required>
+                <option value="" selected disabled>Seleccione una categoria</option>
+                <option value="RESPONSABLE INSCRIPTO">RESPONSABLE INSCRIPTO</option>
+                <option value="CONSUMIDOR FINAL">CONSUMIDOR FINAL</option>
+              </select>
+              <label for="categoria-cliente">Caegoria</label>
+              <div class="invalid-feedback">Por favor, seleccione una categoria.</div>
+            </div>
+
+            <hr>
+
+            <div class="col-12 text-end">
+              <button class="btn btn-secondary" data-bs-dismiss="modal" type="button">Salir</button>
+              <button class="btn btn-primary" type="submit">Aceptar</button>
+            </div>
+
+          </form>
+        </div>
+
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<!-- MODAL DELETE PRODUCTOS -->
+ 
+<div class="modal fade" id="deleteClientModal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true" data-id="">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h1 class="modal-title fs-5 text-center" id="staticBackdropLabel">Eliminar Cliente</h1>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        Desea eliminar el cliente seleccionado ?
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Salir</button>
+        <button type="button"  id="btn-eliminar-cliente" class="btn btn-primary" data-bs-dismiss="modal">Aceptar</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+
+<script>
+  (() => {
+    'use strict';
+
+    // Obtener el formulario
+    const form = document.getElementById('client-form');
+
+    form.addEventListener('submit', (event) => {
+      if (!form.checkValidity()) {
+        event.preventDefault();
+        event.stopPropagation();
+      }
+      form.classList.add('was-validated');
+    }, false);
+  })();
+
+</script>
+
+
+
+<script type="module" src="./js/sources/app.clientes.js"></script>

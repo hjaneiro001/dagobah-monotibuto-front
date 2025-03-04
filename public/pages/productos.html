@@ -1,0 +1,156 @@
+<div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom"
+  id="home-section">
+  <h1 class="h2">Productos</h1>
+  <div class="btn-toolbar mb-2 mb-md-0">
+    <div class="btn-group me-2">
+      <button id="btn-alta-producto" type="button" class="btn btn-sm btn-outline-secondary" data-bs-toggle="modal"
+        data-bs-target="#product-modal">Alta</button>
+      <button type="button" class="btn btn-sm btn-outline-secondary">Listado</button>
+    </div>
+  </div>
+</div>
+
+
+<table id="products-table" class="display">
+  <thead>
+    <tr>
+      <th></th>
+      <th>Codigo</th>
+      <th>Nombre</th>
+      <th class="text-center">Precio</th>
+      <th class="text-center">Iva</th>
+      <th class="text-center">Tipo</th>
+      <th>Accion</th>
+    </tr>
+  </thead>
+  <tbody>
+  </tbody>
+</table>
+<div style="width: 100%; height: 50px;">
+</div>
+
+
+<!-- MODAL ALTA EDICION PRODUCTOS -->
+
+<!-- Modal -->
+<div class="modal fade" id="product-modal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
+  aria-labelledby="staticBackdropLabel" aria-hidden="true">
+  <div class="modal-dialog modal-xl">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h1 class="modal-title fs-5" id="productModalLabel">Alta Productos</h1>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+
+      <div class="modal-body">
+        <div class="container">
+          <form id="product-form" class="row g-3 needs-validation" data-id="" novalidate>
+
+            <!-- Nombre -->
+            <div class="form-floating col-6">
+              <input type="text" class="form-control" id="nombre-prod" placeholder="Nombre" required>
+              <label class="ms-1" for="nombre-prod">Producto</label>
+              <div class="invalid-feedback">Por favor, ingrese producto.</div>
+            </div>
+
+            <!-- descripcion -->
+            <div class="form-floating col-6">
+              <input type="text" class="form-control" id="descripcion-prod" placeholder="Email" required>
+              <label class="ms-1" for="descripcion-prod">Descripcion</label>
+              <div class="invalid-feedback">Ingrese una descripcion.</div>
+            </div>
+
+            <!-- Codigo -->
+            <div class="form-floating col-4">
+              <input type="text" class="form-control" id="codigo-prod" placeholder="Codigo" required>
+              <label class="ms-1" for="codigo-prod">Codigo</label>
+              <div class="invalid-feedback">Ingrese un codigo.</div>
+            </div>
+
+            <!-- Select (Tipo) -->
+            <div class="form-floating col-4">
+              <select class="form-select" id="tipo-prod" required>
+                <option value="" selected disabled>Seleccione un tipo de producto</option>
+                <option value="PRODUCTO">PRODUCTO</option>
+                <option value="SERVICIO">SERVICIO</option>
+                <option value="PRODUCTO y SERVICIO">PRODUCTO y SERVICIO</SEarch>
+                </option>
+              </select>
+              <label for="tipo-prod" class="ms-1">Tipo</label>
+              <div class="invalid-feedback">Por favor, seleccione una tipo.</div>
+            </div>
+
+            <hr class="mb-0">
+
+            <div class="form-floating col-3">
+              <input class="form-control text-end" id="precio-prod" type="text" step="0.01"
+                placeholder="Precio del producto" required>
+              <label for="precio-prod" class="ms-1">Precio</label>
+              <div class="invalid-feedback">Ingrese un valor para el producto.</div>
+            </div>
+
+            <!-- Select (Moneda) -->
+            <div class="form-floating col-4">
+              <select class="form-select" id="moneda-prod" required>
+                <option value="" selected disabled>Seleccione una moneda</option>
+                <option value="PESOS">PESOS</option>
+                <option value="DOLARES">DOLARES</option>
+              </select>
+              <label for="moneda-prod">Moneda</label>
+              <div class="invalid-feedback">Por favor, seleccione una moneda.</div>
+            </div>
+
+            <!-- Select (iva) -->
+            <div class="form-floating col-4">
+              <select class="form-select" id="iva-prod" required>
+                <option value="" selected disabled>Seleccione un iva</option>
+                <option value="IVA 21%">IVA 21%</option>
+                <option value="IVA 27%">IVA 27%</option>
+                <option value="Iva 10.5%">Iva 10.5%</option>
+                <option value="Iva 5%">Iva 5%</option>
+                <option value="Iva 2.5%">Iva 2.5%</option>
+                <option value="IVA EXENTO">IVA EXENTO</option>
+                <option value="IVA NO GRAVADO">IVA NO GRAVADO</option>
+              </select>
+              <label for="iva-prod">Iva</label>
+              <div class="invalid-feedback">Por favor, seleccione una iva.</div>
+            </div>
+
+            <hr>
+
+            <div class="col-12 text-end">
+              <button class="btn btn-secondary" data-bs-dismiss="modal" type="button">Salir</button>
+              <button class="btn btn-primary" type="submit">Aceptar</button>
+            </div>
+
+          </form>
+        </div>
+
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- MODAL DELETE PRODUCTOS -->
+
+<div class="modal fade" id="deleteProductModal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
+  aria-labelledby="staticBackdropLabel" aria-hidden="true" data-id="">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h1 class="modal-title fs-5 text-center" id="modalStaticLabel">Eliminar Producto</h1>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        Desea eliminar el producto seleccionado ?
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Salir</button>
+        <button type="button" id="btn-eliminar-producto" class="btn btn-primary"
+          data-bs-dismiss="modal">Aceptar</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script src="./js/sources/app.productos.js" type="module"></script>
