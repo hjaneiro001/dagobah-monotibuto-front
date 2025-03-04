@@ -382,10 +382,6 @@ function validateDocument(document) {
       throw new Error("Debe ingresar un cliente valido");
   }
 
-  if (!["FACTURAC"].includes(document.document_type)) {
-      throw new Error("El tipo de documento es invalido");
-  }
-
   const dateFields = ["date", "date_serv_from", "date_serv_to", "expiration_date"];
   for (const field of dateFields) {
       if (!/^\d{8}$/.test(document[field])) {

@@ -2,8 +2,8 @@
 export class ApiService {
 
   constructor() {
-    this.url = "http://localhost:5000/"
-    //   this.url = "https://tatooine.herokuapp.com/"
+    // this.url = "http://localhost:5000/"
+    this.url = "https://dagobah-production.up.railway.app/"
     this.headers = {
       'Content-Type': 'application/json'
     }
@@ -49,7 +49,7 @@ export class ApiService {
   async getCliente(id) {
 
     try {
-      let response = await fetch("http://localhost:5000/clients/" + id);
+      let response = await fetch(this.url + "clients/" + id);
       let data = await response.json();
 
       return {
@@ -304,33 +304,6 @@ export class ApiService {
     }
   }
 
-
-  //PRODUCTOS
-  // async getAllProductos() {
-  //   try {
-  //     let response = await fetch(this.url + "products/");
-
-  //     if (!response.ok) {
-  //       throw new Error(`HTTP error! Status: ${response.status}`);
-  //     }
-
-  //     let data = await response.json();
-
-  //     return {
-  //       getStatus: () => response.status,
-  //       getBody: () => data
-  //     };
-
-  //   } catch (error) {
-  //     console.error("Error fetching products:", error);
-  //     return {
-  //       getStatus: () => null,
-  //       getBody: () => { return { error: error.message }; }
-  //     };
-  //   }
-
-  // }
-
   async getAllProducts() {
     try {
       let response = await fetch(this.url + "products/");
@@ -359,7 +332,7 @@ export class ApiService {
   async getProducts(id) {
 
     try {
-      let response = await fetch("http://localhost:5000/products/" + id);
+      let response = await fetch(this.url +"products/" + id);
       let data = await response.json();
 
       return {
