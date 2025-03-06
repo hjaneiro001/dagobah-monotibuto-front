@@ -7,12 +7,10 @@ export class ProductBody {
     reset() {
 
         this.code = ""
-        // this.bar_code = ""
         this.name = ""
         this.description= ""
         this.iva = ""
         this.currency = ""
-        // this.pack = 0
         this.price= 0
         this.product_type = ""
 
@@ -22,9 +20,6 @@ export class ProductBody {
         this.code = _code;
     }
 
-    // setBarCode(_bar_code) {
-    //     this.bar_code = _bar_code;
-    // }
 
     setName(_name) {
         this.name = _name;
@@ -42,12 +37,8 @@ export class ProductBody {
         this.currency = _currency
     }
 
-    // setPack(_pack){
-    //     this.pack = _pack
-    // }
-   
     setPrice(_price){
-        this.price= _price
+        this.price= parseFloat(_price)
     }
    
     setProductType(_product_type){
