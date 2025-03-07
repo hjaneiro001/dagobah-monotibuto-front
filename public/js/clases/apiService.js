@@ -2,9 +2,12 @@
 export class ApiService {
 
   constructor() {
+
     // this.url = "http://localhost:5000/"
-    // this.url = "https://dagobah-production.up.railway.app/"
-    this.url ="https://humble-trust-production-e194.up.railway.app/"
+    // this.url = "https://dagobah-service-production.up.railway.app//"
+    this.url = "https://dagobah-service-stage.up.railway.app/"
+
+
     this.headers = {
       'Content-Type': 'application/json'
     }
