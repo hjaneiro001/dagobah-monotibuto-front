@@ -1,10 +1,12 @@
 const express = require("express");
 const path = require("path");
 const cors = require("cors");
+const fs = require("fs");
+
 
 const app = express();
 const PORT = process.env.PORT || 3000;
-const ENV = process.env.ENVIROMENT;
+let API_URL = process.env.ENVIROMENT || "http://localhost:5000/";
 
 
 app.use(cors());
@@ -13,17 +15,27 @@ app.use(express.static(path.join(__dirname, "public")));
 
 app.get("*", (req, res) => {
   const filePath = path.join(__dirname, "public", "js", "clases", "apiService.js");
-
   fs.readFile(filePath, "utf8", (err, data) => {
     if (err) {
       return res.status(500).send("Error al cargar el archivo");
     }
-    const apiUrl = process.env.API_URL || `http://localhost:${PORT}`;
-    
+
+    if (process.env.ENVIROMENT) {
+      API_URL = `https://dagobah-service-${API_URL}.up.railway.app/`
+    }
+
+    const modifiedData = data.replace(/"__API_URL__"/g, `"${API_URL}"`);
+
+    fs.writeFile(filePath, modifiedData, 'utf8', (writeErr) => {
+      if (writeErr) {
+        return res.status(500).send("Error al guardar el archivo modificado");
+      }
+    });
   });
+
   res.sendFile(path.join(__dirname, "public", "index.html"));
 });
 
 app.listen(PORT, () => {
-  console.log(`Servidor corriendo en http://localhost:${PORT} en modo ${ENV}`);
+  console.log(`Servidor corriendo en http://localhost:${PORT} en modo ${API_URL}`);
 });
