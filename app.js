@@ -8,6 +8,7 @@ const app = express();
 const PORT = process.env.PORT || 3000;
 let API_URL = process.env.ENVIROMENT || "http://localhost:5000/";
 
+
 app.use(cors());
 
 app.use(express.static(path.join(__dirname, "public")));

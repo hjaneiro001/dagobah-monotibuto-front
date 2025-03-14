@@ -3,10 +3,11 @@ export class ApiService {
 
   constructor() {
 
-    //this.url = "http://localhost:5000/"
+    // this.url = "http://localhost:5000/"
     // this.url = "https://dagobah-service-production.up.railway.app//"
     //this.url = "https://dagobah-service-stage.up.railway.app/"
     this.url = "__API_URL__"
+
 
     this.headers = {
       'Content-Type': 'application/json'
