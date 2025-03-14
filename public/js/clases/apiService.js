@@ -4,7 +4,6 @@ export class ApiService {
   constructor() {
     this.url = "http://localhost:5000/"
 
-
     this.headers = {
       'Content-Type': 'application/json'
     }
