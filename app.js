@@ -6,8 +6,6 @@ const app = express();
 const PORT = process.env.PORT || 3000;
 const ENV = process.env.ENVIROMENT;
 
-console.log = (ENV);
-
 app.use(cors());
 
 app.use(express.static(path.join(__dirname, "public")));
@@ -16,6 +14,6 @@ app.get("*", (req, res) => {
   res.sendFile(path.join(__dirname, "public", "index.html"));
 });
 
-app.listen(PORT, () => {
-  console.log(`Servidor corriendo en http://localhost:${PORT}`);
+app.listen(PORT, ENV,() => {
+  console.log(`Servidor corriendo en http://localhost:${PORT} ${ENV}`);
 });
