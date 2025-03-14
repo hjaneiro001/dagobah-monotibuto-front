@@ -15,6 +15,6 @@ app.get("*", (req, res) => {
   res.sendFile(path.join(__dirname, "public", "index.html"));
 });
 
-app.listen(PORT, ENV,() => {
-  console.log(`Servidor corriendo en http://localhost:${PORT} ${ENV}`);
+app.listen(PORT, () => {
+  console.log(`Servidor corriendo en http://localhost:${PORT} en modo ${ENV}`);
 });
