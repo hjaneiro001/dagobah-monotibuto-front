@@ -12,6 +12,15 @@ app.use(cors());
 app.use(express.static(path.join(__dirname, "public")));
 
 app.get("*", (req, res) => {
+  const filePath = path.join(__dirname, "public", "js", "clases", "apiService.js");
+
+  fs.readFile(filePath, "utf8", (err, data) => {
+    if (err) {
+      return res.status(500).send("Error al cargar el archivo");
+    }
+    const apiUrl = process.env.API_URL || `http://localhost:${PORT}`;
+    
+  });
   res.sendFile(path.join(__dirname, "public", "index.html"));
 });
 
