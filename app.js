@@ -24,7 +24,8 @@ app.get("*", (req, res) => {
       API_URL = `https://dagobah-service-${API_URL}.up.railway.app/`
     }
 
-    const modifiedData = data.replace(/"__API_URL__"/g, `"${API_URL}"`);
+    const modifiedData = data.replace(/^"http:\/\/localhost:5000\/"$/, `"${API_URL}"`);
+
 
     fs.writeFile(filePath, modifiedData, 'utf8', (writeErr) => {
       if (writeErr) {
