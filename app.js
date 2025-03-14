@@ -4,6 +4,9 @@ const cors = require("cors");
 
 const app = express();
 const PORT = process.env.PORT || 3000;
+const ENV = process.env.ENVIROMENT;
+
+console.log = (ENV);
 
 app.use(cors());
 
