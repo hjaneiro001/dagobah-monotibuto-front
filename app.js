@@ -6,6 +6,7 @@ const app = express();
 const PORT = process.env.PORT || 3000;
 const ENV = process.env.ENVIROMENT;
 
+
 app.use(cors());
 
 app.use(express.static(path.join(__dirname, "public")));
