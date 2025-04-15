@@ -153,7 +153,7 @@ export class ApiService {
   async postDocument(document) {
 
     try {
-      let response = await fetch(this.url + "documents/", {
+      let response = await fetch(this.url + "documents/factura", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",

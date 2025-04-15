@@ -6,7 +6,7 @@ const fs = require("fs");
 
 const app = express();
 const PORT = process.env.PORT || 3000;
-let API_URL = process.env.ENVIROMENT || "http://localhost:5002/";
+let API_URL = process.env.ENVIROMENT || "http://localhost:5000/";
 
 
 app.use(cors());
