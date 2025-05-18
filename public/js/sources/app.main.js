@@ -12,4 +12,7 @@ if (token) {
   sessionStorage.setItem("token", token);
 }
 
-alert(token)
+// Si no hay token en sessionStorage, redirigir al login
+if (!sessionStorage.getItem("token")) {
+  window.location.href = "https://stage.login.tatooine.com.ar?url=stage.dagobah.tatooine.com.ar";
+}
