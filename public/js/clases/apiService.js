@@ -2,12 +2,12 @@
 export class ApiService {
 
   constructor() {
-    this.env = _local
+    this.env = "_local"
     
-    if(this.env == "local"){
-        this.url = "http://localhost:5000/"
+    if(this.env == "production" || "stage"){
+      this.url=`https://dagobah-service-${this.env}.up.railway.app/`  
     }else{
-        this.url=`https://dagobah-service-${this.env}.up.railway.app/`
+      this.url = "http://localhost:5000/"   
     }
 
     this.headers = {
