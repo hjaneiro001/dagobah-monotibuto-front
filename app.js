@@ -6,7 +6,7 @@ const fs = require("fs");
 
 const app = express();
 const PORT = process.env.PORT || 3000;
-let API_ENV = process.env.ENVIROMENT || "local";
+let API_ENV = process.env.ENVIROMENT || "_local";
 
 app.use(cors());
 
@@ -19,7 +19,7 @@ app.get("*", (req, res) => {
       return res.status(500).send("Error al cargar el archivo");
     }
 
-    const modifiedData = data.replace(/_local/g, `"${API_ENV}"`);
+    const modifiedData = data.replace(/mylocaltatooine/g, `${API_ENV}`);
 
 
     fs.writeFile(filePath, modifiedData, 'utf8', (writeErr) => {
