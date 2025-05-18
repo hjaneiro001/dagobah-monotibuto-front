@@ -2,13 +2,19 @@
 export class ApiService {
 
   constructor() {
-    this.url = "http://localhost:5000/"
+    this.env = _local
+    
+    if(this.env == "local"){
+        this.url = "http://localhost:5000/"
+    }else{
+        this.url=`https://dagobah-service-${this.env}.up.railway.app/`
+    }
 
     this.headers = {
       'Content-Type': 'application/json'
     }
 
-    //    this.token = localStorage.getItem("token");
+    //    this.token = sessionStorage.getItem("token");
 
   }
 
