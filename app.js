@@ -21,7 +21,6 @@ app.get("*", (req, res) => {
 
     const modifiedData = data.replace(/_local/g, `${API_ENV}`);
 
-
     fs.writeFile(filePath, modifiedData, 'utf8', (writeErr) => {
       if (writeErr) {
         return res.status(500).send("Error al guardar el archivo modificado");

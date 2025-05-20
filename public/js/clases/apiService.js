@@ -2,14 +2,15 @@
 export class ApiService {
 
   constructor() {
+
     this.env = "_local"
     
-    if(this.env == "production" || "stage"){
+    if(this.env == "production" || this.env == "stage"){
       this.url=`https://dagobah-service-${this.env}.up.railway.app/`  
     }else{
       this.url = "http://localhost:5000/"   
     }
-
+    
     this.headers = {
       'Content-Type': 'application/json'
     }
@@ -27,8 +28,7 @@ export class ApiService {
 
   //CLIENTES
   async getAllClientes() {
-
-    try {
+      try {
       let response = await fetch(this.url + "clients/");
 
       if (!response.ok) {
