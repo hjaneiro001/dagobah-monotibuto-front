@@ -2,8 +2,19 @@
 <html lang="en" data-bs-theme="auto">
 
 <head>
+
   <script src="./assets/js/color-modes.js"></script>
-  <script src="./js/sources/app.main.js"></script>
+  <script src="./js/utils/auth.js"></script>
+
+  <script>
+
+    if (!auth.authGuard()) {
+      // window.location.href = "https://stage.login.tatooine.com.ar?url=stage.admin.dagobah.tatooine.com.ar";
+      // throw new Error("Acceso denegado");
+    }
+
+ 
+  </script>
 
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -134,7 +145,6 @@
       left: 0;
       width: 100%;
     }
-
   </style>
 
   <!-- Custom styles for this template -->
