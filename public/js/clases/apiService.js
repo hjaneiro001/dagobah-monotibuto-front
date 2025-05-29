@@ -16,8 +16,8 @@ export class ApiService {
   }
 
   _validateAccess(requiredPermissions) {
+    
     if (!auth.authGuard()) {
-      alert("Token inválido o expirado")
       return {
         valid: false,
         status: 401,
@@ -37,12 +37,10 @@ export class ApiService {
       : payload.permissions?.includes(requiredPermissions);
 
     if (!hasAnyPermission) {
-      alert("Permiso denegado")
       return {
         valid: false,
         status: 403,
         error: "Permiso denegado"
-      
       };
     }
 
