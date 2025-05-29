@@ -16,7 +16,7 @@ export class ApiService {
   }
 
   _validateAccess(requiredPermissions) {
-    
+
     if (!auth.authGuard()) {
       return {
         valid: false,
@@ -37,6 +37,7 @@ export class ApiService {
       : payload.permissions?.includes(requiredPermissions);
 
     if (!hasAnyPermission) {
+      alert("No tiene los permisos necesarios")
       return {
         valid: false,
         status: 403,
