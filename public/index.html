@@ -10,7 +10,7 @@
 
     if (!auth.authGuard()) {
        window.location.href = "https://stage.login.tatooine.com.ar?url=stage.admin.dagobah.tatooine.com.ar";
-      // throw new Error("Acceso denegado");
+       throw new Error("Acceso denegado");
     }
 
  

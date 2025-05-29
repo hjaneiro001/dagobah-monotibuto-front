@@ -322,6 +322,15 @@ export class ApiService {
   }
 
   async getAllDocuments() {
+
+    const access = this._validateAccess(['HOLOCRON_ALL','HOLOCRON_READ']);
+    if (!access.valid) {
+      return {
+        getStatus: () => access.status,
+        getBody: () => ({ error: access.error })
+      };
+    }
+
     try {
       let response = await fetch(this.url + "documents/");
       if (!response.ok) {
