@@ -64,8 +64,6 @@ export class ApiService {
 
   async getAllClientes() {
 
-    alert(this.url)
-
     const access = this._validateAccess(['HOLOCRON_ALL','HOLOCRON_READ']);
     if (!access.valid) {
       return {
@@ -106,7 +104,7 @@ export class ApiService {
 
   async getCliente(id) {
 
-      const access = this._validateAccess(['HOLOCRON_ALL','HOLOCRON_READ']);
+    const access = this._validateAccess(['HOLOCRON_ALL','HOLOCRON_READ']);
     if (!access.valid) {
       return {
         getStatus: () => access.status,
@@ -114,7 +112,20 @@ export class ApiService {
       };
     }
     try {
-      let response = await fetch(this.url + "clients/" + id);
+
+      let response = await fetch(this.url + "clients/" + id ,{
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+          "Authorization": `Bearer ${this.token}`
+        }
+      })
+
+      if (!response.ok) {
+        throw new Error(`HTTP error! Status: ${response.status}`);
+      }
+
+      
       let data = await response.json();
 
       return {
