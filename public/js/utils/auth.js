@@ -33,13 +33,11 @@
   function authGuard() {
     let token = sessionStorage.getItem("token");
 
-    if (!token) {
-      token = getCookie("token");
-      if (token) sessionStorage.setItem("token", token);
-    }
+    token = getCookie("token");
+    if (token) sessionStorage.setItem("token", token);
 
     if (!token) {
-      alert("No hay token. Redirigiendo al login.");
+      alert("Token inexistente");
       return false;
     }
 
