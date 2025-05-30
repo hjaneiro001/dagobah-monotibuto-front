@@ -60,10 +60,11 @@ export class ApiService {
   }
 
 
-
   // CLIENTES
 
   async getAllClientes() {
+
+    alert(this.url)
 
     const access = this._validateAccess(['HOLOCRON_ALL','HOLOCRON_READ']);
     if (!access.valid) {
