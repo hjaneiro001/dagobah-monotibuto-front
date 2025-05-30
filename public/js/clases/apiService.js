@@ -156,6 +156,7 @@ export class ApiService {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
+          "Authorization": `Bearer ${this.token}`
         },
         body: JSON.stringify(client),
       });
@@ -191,6 +192,7 @@ export class ApiService {
         method: "PUT",
         headers: {
           "Content-Type": "application/json",
+          "Authorization": `Bearer ${this.token}`
         },
         body: JSON.stringify(client),
       });
@@ -227,6 +229,7 @@ export class ApiService {
         method: "DELETE",
         headers: {
           "Content-Type": "application/json",
+          "Authorization": `Bearer ${this.token}`
         },
       });
 
