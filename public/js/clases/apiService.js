@@ -3,13 +3,24 @@ export class ApiService {
 
   constructor() {
 
-    this.env = "_local"
 
-    if (this.env == "production" || this.env == "stage") {
-      this.url = `https://dagobah-service-${this.env}.up.railway.app/`
-    } else {
-      this.url = "http://localhost:5000/"
+    this.env = "_local"
+    
+    if(this.env == "production"){
+      this.url='https://api.dagobah.tatooine.com.ar/'  
+    }else if(this.env == "stage"){
+      this.url='https://stage.api.dagobah.tatooine.com.ar/'  
+    }else{
+      this.url = "http://localhost:5000/"   
     }
+
+    // this.env = "_local"
+
+    // if (this.env == "production" || this.env == "stage") {
+    //   this.url = `https://dagobah-service-${this.env}.up.railway.app/`
+    // } else {
+    //   this.url = "http://localhost:5000/"
+    // }
 
     this.token = sessionStorage.getItem("token");
 

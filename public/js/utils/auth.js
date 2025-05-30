@@ -37,7 +37,7 @@
     if (token) sessionStorage.setItem("token", token);
 
     if (!token) {
-      alert("Token inexistente");
+      console.log("Token inexistente");
       return false;
     }
 
