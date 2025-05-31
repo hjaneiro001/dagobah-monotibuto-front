@@ -266,6 +266,7 @@ export class ApiService {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
+          "Authorization": `Bearer ${this.token}`
         },
         body: JSON.stringify(document),
       });
@@ -296,8 +297,14 @@ export class ApiService {
       };
     }
 
-    let response = await fetch(this.url + `/documents/bill/${id}`);
-
+    let response = await fetch(this.url + `/documents/bill/${id}`,{
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+          "Authorization": `Bearer ${this.token}`
+        }
+      })
+    
     if (!response.ok) {
       throw new Error(`Error al obtener el PDF: ${response.statusText}`);
     }
@@ -326,7 +333,14 @@ export class ApiService {
         getBody: () => ({ error: access.error })
       };
     }
-    let response = await fetch(this.url + `documents/ticket/${id}`);
+
+    let response = await fetch(this.url + `documents/ticket/${id}`,{
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+          "Authorization": `Bearer ${this.token}`
+        }
+      })
 
     if (!response.ok) {
       throw new Error(`Error al obtener el PDF: ${response.statusText}`);
@@ -358,7 +372,14 @@ export class ApiService {
     }
 
     try {
-      let response = await fetch(this.url + "documents/");
+      let response = await fetch(this.url + "documents/",{
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+          "Authorization": `Bearer ${this.token}`
+        }
+      })
+      
       if (!response.ok) {
         throw new Error(`HTTP error! Status: ${response.status}`);
       }
