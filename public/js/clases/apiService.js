@@ -419,9 +419,14 @@ export class ApiService {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
+          "Authorization": `Bearer ${this.token}`
         },
         body: JSON.stringify(product),
       });
+
+       if (!response.ok) {
+        throw new Error(`HTTP error! Status: ${response.status}`);
+      }
 
       let data = await response.json();
 
@@ -455,9 +460,14 @@ export class ApiService {
         method: "PUT",
         headers: {
           "Content-Type": "application/json",
+          "Authorization": `Bearer ${this.token}`
         },
         body: JSON.stringify(product),
       });
+
+      if (!response.ok) {
+        throw new Error(`HTTP error! Status: ${response.status}`);
+      }
 
       let data = await response.json();
 
@@ -486,7 +496,13 @@ export class ApiService {
     }
 
     try {
-      let response = await fetch(this.url + "products/");
+      let response = await fetch(this.url + "products/",{
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+          "Authorization": `Bearer ${this.token}`
+        }
+      });
 
       if (!response.ok) {
         throw new Error(`HTTP error! Status: ${response.status}`);
@@ -520,7 +536,18 @@ export class ApiService {
     }
 
     try {
-      let response = await fetch(this.url + "products/" + id);
+      let response = await fetch(this.url + "products/" + id,{
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+          "Authorization": `Bearer ${this.token}`
+        }
+      });
+
+      if (!response.ok) {
+        throw new Error(`HTTP error! Status: ${response.status}`);
+      }
+
       let data = await response.json();
 
       return {
@@ -554,8 +581,13 @@ export class ApiService {
         method: "DELETE",
         headers: {
           "Content-Type": "application/json",
+          "Authorization": `Bearer ${this.token}`
         },
       });
+
+      if (!response.ok) {
+        throw new Error(`HTTP error! Status: ${response.status}`);
+      }
 
       let data = await response.json();
 
@@ -572,7 +604,6 @@ export class ApiService {
       };
     }
   }
-
 
 }
 
