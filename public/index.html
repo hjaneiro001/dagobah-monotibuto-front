@@ -6,16 +6,6 @@
   <script src="./assets/js/color-modes.js"></script>
   <script src="./js/utils/auth.js"></script>
 
-  <!-- 
-  <script>
-
-    if (!auth.authGuard()) {
-       window.location.href = "https://stage.login.tatooine.com.ar?url=stage.admin.dagobah.tatooine.com.ar";
-       throw new Error("Acceso denegado");
-    }
-
- 
-  </script> -->
   <script type="module">
     import { ApiService } from './js/clases/apiService.js';
 
@@ -27,8 +17,6 @@
       throw new Error("Acceso denegado");
     }
   </script>
-
-
 
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">

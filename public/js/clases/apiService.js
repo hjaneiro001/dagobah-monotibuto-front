@@ -13,14 +13,6 @@ export class ApiService {
       this.url = "http://localhost:5000/"
     }
 
-    // this.env = "_local"
-
-    // if (this.env == "production" || this.env == "stage") {
-    //   this.url = `https://dagobah-service-${this.env}.up.railway.app/`
-    // } else {
-    //   this.url = "http://localhost:5000/"
-    // }
-
     this.token = sessionStorage.getItem("token");
 
   }
