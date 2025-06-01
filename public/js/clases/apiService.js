@@ -3,15 +3,14 @@ export class ApiService {
 
   constructor() {
 
-
     this.env = "_local"
-    
-    if(this.env == "production"){
-      this.url='https://api.dagobah.tatooine.com.ar/'  
-    }else if(this.env == "stage"){
-      this.url='https://stage.api.dagobah.tatooine.com.ar/'  
-    }else{
-      this.url = "http://localhost:5000/"   
+
+    if (this.env == "production") {
+      this.url = 'https://api.dagobah.tatooine.com.ar/'
+    } else if (this.env == "stage") {
+      this.url = 'https://stage.api.dagobah.tatooine.com.ar/'
+    } else {
+      this.url = "http://localhost:5000/"
     }
 
     // this.env = "_local"
@@ -60,11 +59,26 @@ export class ApiService {
   }
 
 
+  _redireccionLogin() {
+
+    let redireccion
+
+    if (this.env == "production") {
+      redireccion =   "https://login.tatooine.com.ar?url=admin.dagobah.tatooine.com.ar";
+    } else if (this.env == "stage") {
+      redireccion =   "https://stage.login.tatooine.com.ar?url=stage.admin.dagobah.tatooine.com.ar";
+    } else {
+      alert("Inicie localhost manualmente")
+    }
+
+    return(redireccion)
+
+  }
   // CLIENTES
 
   async getAllClientes() {
 
-    const access = this._validateAccess(['HOLOCRON_ALL','HOLOCRON_READ']);
+    const access = this._validateAccess(['HOLOCRON_ALL', 'HOLOCRON_READ']);
     if (!access.valid) {
       return {
         getStatus: () => access.status,
@@ -104,7 +118,7 @@ export class ApiService {
 
   async getCliente(id) {
 
-    const access = this._validateAccess(['HOLOCRON_ALL','HOLOCRON_READ']);
+    const access = this._validateAccess(['HOLOCRON_ALL', 'HOLOCRON_READ']);
     if (!access.valid) {
       return {
         getStatus: () => access.status,
@@ -113,7 +127,7 @@ export class ApiService {
     }
     try {
 
-      let response = await fetch(this.url + "clients/" + id ,{
+      let response = await fetch(this.url + "clients/" + id, {
         method: "GET",
         headers: {
           "Content-Type": "application/json",
@@ -125,7 +139,7 @@ export class ApiService {
         throw new Error(`HTTP error! Status: ${response.status}`);
       }
 
-      
+
       let data = await response.json();
 
       return {
@@ -216,7 +230,7 @@ export class ApiService {
 
   async deleteClient(id) {
 
-    const access = this._validateAccess(['HOLOCRON_ALL','HOLOCRON_READ']);
+    const access = this._validateAccess(['HOLOCRON_ALL', 'HOLOCRON_READ']);
     if (!access.valid) {
       return {
         getStatus: () => access.status,
@@ -289,7 +303,7 @@ export class ApiService {
 
   async getBill(id) {
 
-    const access = this._validateAccess(['HOLOCRON_ALL','HOLOCRON_READ']);
+    const access = this._validateAccess(['HOLOCRON_ALL', 'HOLOCRON_READ']);
     if (!access.valid) {
       return {
         getStatus: () => access.status,
@@ -297,14 +311,14 @@ export class ApiService {
       };
     }
 
-    let response = await fetch(this.url + `/documents/bill/${id}`,{
-        method: "GET",
-        headers: {
-          "Content-Type": "application/json",
-          "Authorization": `Bearer ${this.token}`
-        }
-      })
-    
+    let response = await fetch(this.url + `/documents/bill/${id}`, {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+        "Authorization": `Bearer ${this.token}`
+      }
+    })
+
     if (!response.ok) {
       throw new Error(`Error al obtener el PDF: ${response.statusText}`);
     }
@@ -326,7 +340,7 @@ export class ApiService {
 
   async getTicket(id) {
 
-    const access = this._validateAccess(['HOLOCRON_ALL','HOLOCRON_READ']);
+    const access = this._validateAccess(['HOLOCRON_ALL', 'HOLOCRON_READ']);
     if (!access.valid) {
       return {
         getStatus: () => access.status,
@@ -334,13 +348,13 @@ export class ApiService {
       };
     }
 
-    let response = await fetch(this.url + `documents/ticket/${id}`,{
-        method: "GET",
-        headers: {
-          "Content-Type": "application/json",
-          "Authorization": `Bearer ${this.token}`
-        }
-      })
+    let response = await fetch(this.url + `documents/ticket/${id}`, {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+        "Authorization": `Bearer ${this.token}`
+      }
+    })
 
     if (!response.ok) {
       throw new Error(`Error al obtener el PDF: ${response.statusText}`);
@@ -363,7 +377,7 @@ export class ApiService {
 
   async getAllDocuments() {
 
-    const access = this._validateAccess(['HOLOCRON_ALL','HOLOCRON_READ']);
+    const access = this._validateAccess(['HOLOCRON_ALL', 'HOLOCRON_READ']);
     if (!access.valid) {
       return {
         getStatus: () => access.status,
@@ -372,14 +386,14 @@ export class ApiService {
     }
 
     try {
-      let response = await fetch(this.url + "documents/",{
+      let response = await fetch(this.url + "documents/", {
         method: "GET",
         headers: {
           "Content-Type": "application/json",
           "Authorization": `Bearer ${this.token}`
         }
       })
-      
+
       if (!response.ok) {
         throw new Error(`HTTP error! Status: ${response.status}`);
       }
@@ -424,7 +438,7 @@ export class ApiService {
         body: JSON.stringify(product),
       });
 
-       if (!response.ok) {
+      if (!response.ok) {
         throw new Error(`HTTP error! Status: ${response.status}`);
       }
 
@@ -487,7 +501,7 @@ export class ApiService {
 
   async getAllProducts() {
 
-    const access = this._validateAccess(['HOLOCRON_ALL','HOLOCRON_READ']);
+    const access = this._validateAccess(['HOLOCRON_ALL', 'HOLOCRON_READ']);
     if (!access.valid) {
       return {
         getStatus: () => access.status,
@@ -496,7 +510,7 @@ export class ApiService {
     }
 
     try {
-      let response = await fetch(this.url + "products/",{
+      let response = await fetch(this.url + "products/", {
         method: "GET",
         headers: {
           "Content-Type": "application/json",
@@ -527,7 +541,7 @@ export class ApiService {
 
   async getProducts(id) {
 
-    const access = this._validateAccess(['HOLOCRON_ALL','HOLOCRON_READ']);
+    const access = this._validateAccess(['HOLOCRON_ALL', 'HOLOCRON_READ']);
     if (!access.valid) {
       return {
         getStatus: () => access.status,
@@ -536,7 +550,7 @@ export class ApiService {
     }
 
     try {
-      let response = await fetch(this.url + "products/" + id,{
+      let response = await fetch(this.url + "products/" + id, {
         method: "GET",
         headers: {
           "Content-Type": "application/json",
