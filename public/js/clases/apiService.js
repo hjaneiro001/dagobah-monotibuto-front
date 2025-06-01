@@ -68,7 +68,8 @@ export class ApiService {
     } else if (this.env == "stage") {
       redireccion =   "https://stage.login.tatooine.com.ar?url=stage.admin.dagobah.tatooine.com.ar";
     } else {
-      alert("Inicie localhost manualmente")
+      alert("Redireccionamiento no disponible en modo local")
+      throw new Error("Redirección no disponible en entorno local");
     }
 
     return(redireccion)
