@@ -7,6 +7,7 @@
   <script src="./js/utils/auth.js"></script>
 
   <script type="module">
+
     import { ApiService } from './js/clases/apiService.js';
 
     const api = new ApiService();
@@ -16,6 +17,21 @@
       window.location.href = redireccion;
       throw new Error("Acceso denegado");
     }
+
+    // document.getElementById("boton-menu-logout").addEventListener("click", () => {
+
+    //   document.cookie = "token=; path=/; expires=Thu, 01 Jan 1970 00:00:00 UTC;";
+
+    //   sessionStorage.clear();
+
+    //   window.location.href = '';
+
+    //   alert("Session cerrada debe loguearse nuevamente")
+    //   let redireccion = api._redireccionLogin();
+    //   window.location.href = redireccion;
+
+    // })
+
   </script>
 
   <meta charset="utf-8">
@@ -180,6 +196,14 @@
       <path
         d="M8 12a4 4 0 1 0 0-8 4 4 0 0 0 0 8zM8 0a.5.5 0 0 1 .5.5v2a.5.5 0 0 1-1 0v-2A.5.5 0 0 1 8 0zm0 13a.5.5 0 0 1 .5.5v2a.5.5 0 0 1-1 0v-2A.5.5 0 0 1 8 13zm8-5a.5.5 0 0 1-.5.5h-2a.5.5 0 0 1 0-1h2a.5.5 0 0 1 .5.5zM3 8a.5.5 0 0 1-.5.5h-2a.5.5 0 0 1 0-1h2A.5.5 0 0 1 3 8zm10.657-5.657a.5.5 0 0 1 0 .707l-1.414 1.415a.5.5 0 1 1-.707-.708l1.414-1.414a.5.5 0 0 1 .707 0zm-9.193 9.193a.5.5 0 0 1 0 .707L3.05 13.657a.5.5 0 0 1-.707-.707l1.414-1.414a.5.5 0 0 1 .707 0zm9.193 2.121a.5.5 0 0 1-.707 0l-1.414-1.414a.5.5 0 0 1 .707-.707l1.414 1.414a.5.5 0 0 1 0 .707zM4.464 4.465a.5.5 0 0 1-.707 0L2.343 3.05a.5.5 0 1 1 .707-.707l1.414 1.414a.5.5 0 0 1 0 .708z" />
     </symbol>
+    <symbol id="box-arrow-right" viewBox="0 0 16 16">
+      <path fill-rule="evenodd"
+        d="M6 13a.5.5 0 0 1-.5.5H3a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h2.5a.5.5 0 0 1 0 1H3a1 1 0 0 0-1 1v7a1 1 0 0 0 1 1h2.5a.5.5 0 0 1 .5.5z" />
+      <path fill-rule="evenodd"
+        d="M11.854 8.354a.5.5 0 0 0 0-.708L9.707 5.5a.5.5 0 0 0-.707.708L10.293 8l-1.293 1.793a.5.5 0 0 0 .707.707l2.147-2.146z" />
+      <path fill-rule="evenodd"
+        d="M9.5 8a.5.5 0 0 0 .5-.5v-1h3a.5.5 0 0 0 0-1h-3v-1a.5.5 0 0 0-1 0v3a.5.5 0 0 0 .5.5z" />
+    </symbol>
   </svg>
 
   <div class="dropdown position-fixed bottom-0 end-0 mb-3 me-3 bd-mode-toggle">
@@ -339,10 +363,8 @@
       <div class="sidebar border border-right col-md-3 col-lg-2 p-0 bg-body-tertiary">
         <div class="offcanvas-md offcanvas-end bg-body-tertiary" tabindex="-1" id="sidebarMenu"
           aria-labelledby="sidebarMenuLabel">
-          <div class="offcanvas-header">
+          <div class="offcanvas-header ">
             <h5 class="offcanvas-title" id="sidebarMenuLabel">TATOOINE</h5>
-            <button type="button" class="btn-close" data-bs-dismiss="offcanvas" data-bs-target="#sidebarMenu"
-              aria-label="Close"></button>
           </div>
           <div class="offcanvas-body d-md-flex flex-column p-0 pt-lg-3 overflow-y-auto">
             <ul class="nav flex-column">
@@ -355,7 +377,6 @@
                 </a>
               </li>
               <hr class="my-3">
-
               <li class="nav-item" style="cursor: pointer;">
                 <a class="nav-link d-flex align-items-center gap-2" id="boton-menu-comprobantes">
                   <svg class="bi">
@@ -380,6 +401,16 @@
                   Clientes
                 </a>
               </li>
+              <hr>
+              <li class="nav-item" style="cursor: pointer;">
+                <a class="nav-link d-flex align-items-center gap-2" id="boton-menu-logout">
+                  <svg class="bi">
+                    <use xlink:href="#box-arrow-right" />
+                  </svg>
+                  Cerrar Session
+                </a>
+              </li>
+
 
               <hr class="my-3">
 
