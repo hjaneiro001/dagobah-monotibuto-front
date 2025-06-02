@@ -18,19 +18,19 @@
       throw new Error("Acceso denegado");
     }
 
-    // document.getElementById("boton-menu-logout").addEventListener("click", () => {
+    document.getElementById("boton-menu-logout").addEventListener("click", () => {
 
-    //   document.cookie = "token=; path=/; expires=Thu, 01 Jan 1970 00:00:00 UTC;";
+      document.cookie = "token=; path=/; expires=Thu, 01 Jan 1970 00:00:00 UTC;";
 
-    //   sessionStorage.clear();
+      sessionStorage.clear();
 
-    //   window.location.href = '';
+      window.location.href = '';
 
-    //   alert("Session cerrada debe loguearse nuevamente")
-    //   let redireccion = api._redireccionLogin();
-    //   window.location.href = redireccion;
+      alert("Session cerrada debe loguearse nuevamente")
+      let redireccion = api._redireccionLogin();
+      window.location.href = redireccion;
 
-    // })
+    })
 
   </script>
 
