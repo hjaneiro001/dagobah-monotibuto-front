@@ -16,10 +16,6 @@ const ctnProductos = document.getElementById("productos-section")
 
 const plantilla = new handlerTemplate
 
-import { ApiService } from './js/clases/apiService.js';
-const api = new ApiService();
-
-
 async function mostrarOcultar() {
 
   let response
@@ -103,21 +99,6 @@ document.getElementById("boton-menu-clientes").addEventListener("click", () => {
 document.getElementById("boton-menu-productos").addEventListener("click", () => {
   location.hash = "/productos"
 })
-
- document.getElementById("boton-menu-logout").addEventListener("click", () => {
-
-      document.cookie = "token=; path=/; expires=Thu, 01 Jan 1970 00:00:00 UTC;";
-
-      sessionStorage.clear();
-
-      window.location.href = '';
-
-      alert("Session cerrada debe loguearse nuevamente")
-      let redireccion = api._redireccionLogin();
-      window.location.href = redireccion;
-
-    })
-
 
 if (!location.hash) {
   location.hash = "/home"
