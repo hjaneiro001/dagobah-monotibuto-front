@@ -56,7 +56,7 @@ export class ApiService {
     let redireccion
 
     if (this.env == "production") {
-      redireccion =   "https://login.tatooine.com.ar?url=admin.dagobah.tatooine.com.ar";
+      redireccion =   "https://login-admin.up.railway.app?url=admin.dagobah.tatooine.com.ar";
     } else if (this.env == "stage") {
       redireccion =   "https://stage.login.tatooine.com.ar?url=stage.admin.dagobah.tatooine.com.ar";
     } else {
