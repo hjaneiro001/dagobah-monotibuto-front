@@ -56,7 +56,8 @@ export class ApiService {
     let redireccion
 
     if (this.env == "production") {
-      redireccion =   "https://login-admin.up.railway.app?url=admin.dagobah.tatooine.com.ar";
+      // redireccion =   "https://login-admin.up.railway.app?url=admin.dagobah.tatooine.com.ar";
+      redireccion =   "https://login-admin.up.railway.app?url=dagobah-monotibuto-front-production-cce4.up.railway.app";
     } else if (this.env == "stage") {
       redireccion =   "https://stage.login.tatooine.com.ar?url=stage.admin.dagobah.tatooine.com.ar";
     } else {
