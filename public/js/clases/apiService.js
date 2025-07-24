@@ -57,6 +57,7 @@ export class ApiService {
 
     if (this.env == "production") {
       redireccion =   "https://login.tatooine.com.ar?url=admin.dagobah.tatooine.com.ar";
+    
     } else if (this.env == "stage") {
       redireccion =   "https://stage.login.tatooine.com.ar?url=stage.admin.dagobah.tatooine.com.ar";
     } else {
